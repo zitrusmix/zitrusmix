@@ -1,22 +1,6 @@
 # zitrusmix
 
-**🌵🌵🌵 UNDER DEVELOPMENT 🌵🌵🌵**
+A (type) static content (site) generator with a zitrus graph.
 
-A static content (site) generator with zitrus fruits.
+🌵 Under development...
 
-## Roadmap
-
-### 2019 December
-
-- Basic minimal working prototype
-
-### 2020 January
-
-- Documentation
-- Tutorials
-- Website
-
-### 2020 Feb 
-
-- Open for contributors
-- More plugins (middleware)

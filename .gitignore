@@ -65,3 +65,5 @@ typings/
 
 NOTES.md
 ISSUES.md
+/dist/
+/temp/temp.js
