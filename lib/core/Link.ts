@@ -11,8 +11,8 @@ export class Link {
     constructor(source: ElementURI, targets: Array<ElementURI>, relationship: string, attributes?: Map<string, any>) {
         this.source = source;
         this.targets = targets;
-        this.attributes = attributes || new Map();
         this.relationship = relationship;
+        this.attributes = attributes || new Map();
     }
 
     [Symbol.toPrimitive]() {

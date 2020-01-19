@@ -67,6 +67,10 @@ export class Zitrusmix {
         return element;
     }
 
+    getLinks(): LinkCollection {
+        return this.linkStorage.values()
+    }
+
     getOutgoingLinks(uri: ElementURI) {
         return this.linkStorage.getOutgoingLinks(uri);
     }
@@ -189,5 +193,13 @@ export class Zitrusmix {
 
     [Symbol.iterator](): Map<ElementURI, ContentElement> {
         return this.elementMap;
+    }
+
+    toJSON(): object {
+        return {
+            options: this.options,
+            elements: this.elements.map(element => element.toJSON()),
+            links: this.linkStorage.toJSON()
+        };
     }
 }

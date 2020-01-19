@@ -3,13 +3,14 @@ import {Zitrusmix} from '../Zitrusmix';
 import {ZitrusmixPlugin} from '../interfaces/ZitrusmixPlugin';
 import {ZitrusmixCollection} from '../ZitrusmixCollection';
 import {ElementURI} from '../types/ElementURI';
+import {JSONString} from "../types/JSONString";
 
 export class LinkCollection {
     readonly links: Set<Link>;
     readonly mix: Zitrusmix;
 
-    constructor(mix: Zitrusmix) {
-        this.links = new Set();
+    constructor(mix: Zitrusmix, links?: Array<Link>) {
+        this.links = new Set(links || []);
         this.mix = mix;
     }
 
@@ -63,6 +64,10 @@ export class LinkCollection {
 
     getTargets(): Array<ElementURI> {
         return this.map(link => link.targets).flat();
+    }
+
+    toJSON(): object {
+        return [...this.values()];
     }
 
     [Symbol.iterator](): IterableIterator<Link> {

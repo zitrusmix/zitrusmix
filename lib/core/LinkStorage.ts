@@ -22,6 +22,7 @@ export class LinkStorage {
         link.targets.forEach(target => {
             const targetLinkCollection = this.targetMap.get(target) || new LinkCollection(this.mix);
             targetLinkCollection.add(link);
+            this.targetMap.set(link.source, sourceLinkCollection);
         });
     }
 
@@ -72,7 +73,7 @@ export class LinkStorage {
         });
     }
 
-    values() {
+    values(): LinkCollection {
         const allLinks: Array<Link> = [];
 
         for(const linkCollection of this.sourceMap.values()) {
@@ -81,11 +82,15 @@ export class LinkStorage {
             }
         }
 
-        return allLinks;
+        return new LinkCollection(this.mix, allLinks);
     }
 
     clear() {
         this.sourceMap.clear();
         this.targetMap.clear();
+    }
+
+    toJSON(): object {
+        return this.values().toJSON();
     }
 }

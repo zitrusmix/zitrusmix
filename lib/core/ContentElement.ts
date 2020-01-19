@@ -39,4 +39,15 @@ export class ContentElement {
     getOutgoingLinks() {
         return this.mix.getOutgoingLinks(this.uri);
     }
+
+    getIncomingLinks() {
+        return this.mix.getIncomingLinks(this.uri);
+    }
+
+    toJSON(): object {
+        return {
+            uri: this.uri,
+            content: this.content
+        };
+    }
  }
