@@ -1,21 +1,22 @@
 {
     "name": "zitrusmix",
     "version": "0.1.0",
-    "description": "A static content generator with zitrus fruits.",
-    "main": "./lib/index.ts",
-    "types": "index.d.ts",
+    "description": "A (static) content generator and mixer",
+    "main": "./dist/index.js",
+    "types": "./dist/index.d.ts",
     "directories": {
         "lib": "lib"
     },
     "files": [
         "lib",
-        "plugins",
+        "lib/plugins",
         "README.md"
     ],
     "scripts": {
-        "lint": "npx tsc",
+        "build": "tsc",
         "test": "mocha -r ts-node/register test/**/*.test.ts",
-        "prettyTS": "npx prettier --write ./dist/**/*.js"
+        "prettyTS": "npx prettier --write ./dist/**/*.js",
+        "prepublish": "npm run build"
     },
     "repository": {
         "type": "git",
@@ -41,9 +42,7 @@
         "@types/node": "^13.1.6",
         "chai": "^4.2.0",
         "mocha": "^7.0.0",
-        "ts-node": "^8.6.1"
-    },
-    "dependencies": {
+        "ts-node": "^8.6.1",
         "typescript": "^3.7.4"
     }
 }
