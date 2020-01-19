@@ -1,4 +1,4 @@
-import {ContentElement} from '../core/ContentElement';
+import {ContentElement} from '../ContentElement';
 import {Content} from "../types/Content";
 
 export interface ContentElementPredicate {

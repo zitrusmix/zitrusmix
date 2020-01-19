@@ -1,6 +1,6 @@
 'use strict';
 
-import {ContentElement} from './core/ContentElement';
+import {ContentElement} from './ContentElement';
 
 export class ZitrusmixOptions {
     readonly createMatcher: (() => {match: (expression:string) => boolean}) | null;

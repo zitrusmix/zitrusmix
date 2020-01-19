@@ -1,18 +1,18 @@
 import {ZitrusmixOptions} from './ZitrusmixOptions';
-import {ContentElement} from './core/ContentElement';
+import {ContentElement} from './ContentElement';
 
 import {ContentElementPredicate} from './interfaces/ContentElementPredicate';
 import {ElementURI} from './types/ElementURI';
 import {Content} from './types/Content';
 import {ZitrusmixPlugin} from './interfaces/ZitrusmixPlugin';
 import {ZitrusmixCollection} from './ZitrusmixCollection';
-import {Link} from './core/Link';
+import {Link} from './Link';
 import {strictClone} from './utils/strictClone';
 import {MaybeArray} from "./types/MaybeArray";
 import {ensureArray} from "./utils/ensureArray";
-import {LinkCollection} from "./core/LinkCollection";
+import {LinkCollection} from "./LinkCollection";
 import {assertElementExists} from "./assert/assertElementExists";
-import {LinkStorage} from "./core/LinkStorage";
+import {LinkStorage} from "./LinkStorage";
 
 export class Zitrusmix {
     private readonly options : ZitrusmixOptions;

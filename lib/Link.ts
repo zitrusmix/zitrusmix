@@ -1,6 +1,6 @@
 'use strict';
 
-import {ElementURI} from '../types/ElementURI';
+import {ElementURI} from './types/ElementURI';
 
 export class Link {
     readonly source: ElementURI;

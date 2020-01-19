@@ -1,13 +1,13 @@
 'use strict';
 
-import {strictClone} from '../utils/strictClone';
-import {ElementURI} from '../types/ElementURI';
-import {Content} from '../types/Content';
-import {deepFreeze} from '../utils/deepFreeze';
-import {MaybeArray} from '../types/MaybeArray';
-import {assertElementURI} from '../assert/assertElementURI';
-import {Zitrusmix} from '../Zitrusmix';
-import {ensureArray} from '../utils/ensureArray';
+import {strictClone} from './utils/strictClone';
+import {ElementURI} from './types/ElementURI';
+import {Content} from './types/Content';
+import {deepFreeze} from './utils/deepFreeze';
+import {MaybeArray} from './types/MaybeArray';
+import {assertElementURI} from './assert/assertElementURI';
+import {Zitrusmix} from './Zitrusmix';
+import {ensureArray} from './utils/ensureArray';
 
 export class ContentElement {
     readonly uri: Readonly<ElementURI>;

@@ -1,8 +1,8 @@
 import {createId} from '../lib/utils/createId';
 import {expect} from 'chai';
 import 'mocha';
-import {Link} from "../lib/core/Link";
-import {LinkCollection} from "../lib/core/LinkCollection";
+import {Link} from "../lib/Link";
+import {LinkCollection} from "../lib/LinkCollection";
 import {Zitrusmix} from "../lib/Zitrusmix";
 
 describe('LinkCollection()', function () {

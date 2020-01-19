@@ -1,4 +1,4 @@
-import {ContentElement} from '../core/ContentElement';
+import {ContentElement} from '../ContentElement';
 import {ElementURI} from "../types/ElementURI";
 import {URL} from "url";
 

@@ -1,9 +1,9 @@
 import {Link} from './Link';
-import {Zitrusmix} from '../Zitrusmix';
-import {ZitrusmixPlugin} from '../interfaces/ZitrusmixPlugin';
-import {ZitrusmixCollection} from '../ZitrusmixCollection';
-import {ElementURI} from '../types/ElementURI';
-import {JSONString} from "../types/JSONString";
+import {Zitrusmix} from './Zitrusmix';
+import {ZitrusmixPlugin} from './interfaces/ZitrusmixPlugin';
+import {ZitrusmixCollection} from './ZitrusmixCollection';
+import {ElementURI} from './types/ElementURI';
+import {JSONString} from "./types/JSONString";
 
 export class LinkCollection {
     readonly links: Set<Link>;

@@ -1,7 +1,7 @@
-import {ElementURI} from "../types/ElementURI";
+import {ElementURI} from "./types/ElementURI";
 import {Link} from "./Link";
 import {LinkCollection} from "./LinkCollection";
-import {Zitrusmix} from "../Zitrusmix";
+import {Zitrusmix} from "./Zitrusmix";
 
 export class LinkStorage {
     private readonly sourceMap: Map<ElementURI, LinkCollection>;

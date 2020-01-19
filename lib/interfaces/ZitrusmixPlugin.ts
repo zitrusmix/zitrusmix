@@ -1,5 +1,5 @@
 import {PluginContext} from '../plugin/PluginContext';
-import {ContentElement} from '../core/ContentElement';
+import {ContentElement} from '../ContentElement';
 
 export interface ZitrusmixPluginFunc<TOptions> {
     (context: PluginContext<TOptions>):(Promise<void>|void)
