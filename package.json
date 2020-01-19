@@ -2,8 +2,13 @@
     "name": "zitrusmix",
     "version": "0.4.0",
     "description": "A (static) content generator and mixer",
-    "main": "./dist/index.js",
-    "types": "./dist/index.d.ts",
+    "main": "./dist/lib/index.js",
+    "types": "./dist/lib/index.d.ts",
+    "files": [
+        "dist/",
+        "LICENSE",
+        "README.md"
+    ],
     "scripts": {
         "build": "tsc",
         "test": "mocha -r ts-node/register ./test/**/*.test.ts",
@@ -28,13 +33,11 @@
         "url": "https://github.com/zitrusmix/zitrusmix/issues"
     },
     "homepage": "https://github.com/zitrusmix/zitrusmix#readme",
-    "dependencies": {
+    "devDependencies": {
         "@types/chai": "^4.2.7",
         "@types/mocha": "^5.2.7",
         "@types/node": "^13.1.6",
-        "typescript": "next"
-    },
-    "devDependencies": {
+        "typescript": "next",
         "chai": "^4.2.0",
         "mocha": "^6.0.0",
         "ts-node": "^8.6.1"
