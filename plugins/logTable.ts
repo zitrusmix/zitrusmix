@@ -14,13 +14,14 @@ export function logTable(options?: LogTableOptions): ZitrusmixPlugin<LogTableOpt
 
 function logTablePlugin(context: PluginContext<LogTableOptions>) {
     const options = Object.assign(new LogTableOptions(), context.options);
+    const mix = context.mix;
 
     const rows = context.collection.elements.map(element => {
         const row = {
             column: new Map<string, any>()
         };
 
-        row.column.set('id', element.id);
+        row.column.set('uri', element.uri);
         Object.entries(element.content).forEach(([key, value]) => row.column.set(key, value));
 
         return row;

@@ -8,7 +8,7 @@ export function strictStringify<T extends object>(obj:T):JSONString {
     try {
         json = JSON.stringify(obj);
     } catch (error) {
-        throw new Error('The content must be serializeable into valid JSON.');
+        throw new Error('The content must be serializeable into JSON.');
     }
 
     return json

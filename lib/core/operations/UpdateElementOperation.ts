@@ -1,16 +1,16 @@
 'use strict';
 
-import {ElementId} from '../../types/ElementId';
+import {ElementURI} from '../../types/ElementURI';
 import {Content} from '../../types/Content';
 
 export class UpdateElementOperation {
     readonly operation: string;
-    readonly elementId: ElementId;
+    readonly uri: ElementURI;
     readonly content: Content;
 
-    constructor(elementId: ElementId, content: Content) {
+    constructor(uri: ElementURI, content: Content) {
         this.operation = this.constructor.name;
-        this.elementId = elementId;
+        this.uri = uri;
         this.content = content || {};
     }
 }

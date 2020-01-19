@@ -1,65 +1,116 @@
 import {ZitrusmixOptions} from './ZitrusmixOptions';
-import {ContentPool} from './content/ContentPool';
-import {ContentElement} from './content/ContentElement';
+import {ContentElement} from './core/ContentElement';
 
-import {AddContentOperation} from './content/operations/AddContentOperation';
-import {UpdateElementOperation} from './content/operations/UpdateElementOperation';
-import {ContentElementPredicate} from "./interfaces/ContentElementPredicate";
-import {ElementId} from "./types/ElementId";
-import {Content} from "./types/Content";
-import {ZitrusmixPlugin} from "./interfaces/ZitrusmixPlugin";
-import {createId} from "./utils/createId";
-import {ZitrusmixCollection} from "./ZitrusmixCollection";
+import {ContentElementPredicate} from './interfaces/ContentElementPredicate';
+import {ElementURI} from './types/ElementURI';
+import {Content} from './types/Content';
+import {ZitrusmixPlugin} from './interfaces/ZitrusmixPlugin';
+import {ZitrusmixCollection} from './ZitrusmixCollection';
+import {Link} from './core/Link';
+import {strictClone} from './utils/strictClone';
+import {MaybeArray} from "./types/MaybeArray";
+import {ensureArray} from "./utils/ensureArray";
+import {LinkCollection} from "./core/LinkCollection";
+import {assertElementExists} from "./assert/assertElementExists";
+import {LinkStorage} from "./core/LinkStorage";
 
 export class Zitrusmix {
     private readonly options : ZitrusmixOptions;
-    private readonly contentPool: ContentPool;
+    private readonly elementMap: Map<ElementURI, ContentElement>;
+    private readonly linkStorage: LinkStorage;
 
     constructor(options?: Partial<ZitrusmixOptions>) {
         this.options = Object.assign(new ZitrusmixOptions(), options || {});
-        this.contentPool = this.options.contentPool;
+        this.elementMap = new Map();
+        this.linkStorage = new LinkStorage(this);
     }
 
     /**
      * Returns a readonly list of all elements.
      */
     get elements(): Array<ContentElement> {
-         return this.contentPool.elements;
+        return [...this.elementMap.values()] as Array<ContentElement>;
     }
 
     all() {
-        return new ZitrusmixCollection(this, this.contentPool.elements);
+        return new ZitrusmixCollection(this, this.elements);
     }
 
     use<T>(plugin: ZitrusmixPlugin<T>) {
         return this.all().use(plugin);
     }
 
-    addContent(content: Content) {
-        const newElement = new ContentElement(createId(), content);
-        return this.contentPool.addContent(new AddContentOperation(newElement));
+    /**
+     * @param uri
+     * @param content
+     */
+    add(uri: ElementURI, content?: Content) {
+        const element = new ContentElement(uri, strictClone(content || {}), this);
+        this.setElement(element);
+
+        return element;
     }
 
-    update(element: ContentElement) {
-        const operation = new UpdateElementOperation(element.id, element.content);
-        this.contentPool.updateContent(operation);
+    addLink(source: ElementURI, targets: MaybeArray<ElementURI>, relationship: string, attributes?: Map<string, any>) {
+        const link = new Link(source, ensureArray(targets), relationship, attributes);
+        this.linkStorage.add(link);
     }
 
-    updateContent(contentId: ElementId, content: Content) {
-        const element = this.contentPool.getElementById(contentId);
-
-        if (element) {
-            const operation = new UpdateElementOperation(contentId, content);
-            this.contentPool.updateContent(operation);
-        } else {
-            throw new Error(`Zitrusmix.updateContent(contentId: "${contentId}", ...): No element with given "contentId" found.`);
-        }
+    getElementById(uri: ElementURI) {
+        return this.elementMap.get(uri);
     }
 
-    filter(predicate: ContentElementPredicate<ContentElement>) {
-        const elements = this.elements.filter(predicate);
+    get(uri: ElementURI): ContentElement {
+        const element = this.getElementById(uri);
+        assertElementExists(element, uri);
 
-        return new ZitrusmixCollection(this, elements);
+        return element;
+    }
+
+    getOutgoingLinks(uri: ElementURI) {
+        return this.linkStorage.getOutgoingLinks(uri);
+    }
+
+    getIncomingLinks(uri: ElementURI) {
+        return this.linkStorage.getIncomingLinks(uri);
+    }
+
+    getElementsLinkedTo(uri: ElementURI) {
+       return new ZitrusmixCollection(this, []);
+    }
+
+    filter(predicate: ContentElementPredicate) {
+        return this.all().filter(predicate);
+    }
+
+    find(predicate: ContentElementPredicate) {
+        return this.all().find(predicate);
+    }
+
+    update(uri: ElementURI, content: Content) {
+        const element = this.getElementById(uri);
+        assertElementExists(element, uri);
+
+        const updatedElement = new ContentElement(uri, strictClone(content), this);
+        this.setElement(updatedElement);
+    }
+
+    forEach(callback: (element: ContentElement) => void) {
+        this.elements.forEach(callback);
+    }
+
+    map<T>(mapFunc: (element: ContentElement, uri: ElementURI) => T): Array<T> {
+        return Array.from(this.elementMap, ([key, value]) => mapFunc(value, key));
+    }
+
+    clear() {
+        this.elementMap.clear();
+        this.linkStorage.clear();
+    }
+
+    delete(uri: ElementURI) {
+        this.elementMap.delete(uri);
+        this.linkStorage.removeElement(uri);
     }
 
     // /**
@@ -118,8 +169,25 @@ export class Zitrusmix {
     //     return groups;
     // }
 
-    forEach(callback: (element: ContentElement) => void) {
-        this.contentPool.elements.forEach(callback);
+
+
+    has(uri: ElementURI) {
+        return this.elementMap.has(uri);
     }
 
+    keys() {
+        return this.elementMap.keys();
+    }
+
+    values() {
+        return this.elementMap.values();
+    }
+
+    private setElement(contentElement: ContentElement) {
+        this.elementMap.set(contentElement.uri, contentElement);
+    }
+
+    [Symbol.iterator](): Map<ElementURI, ContentElement> {
+        return this.elementMap;
+    }
 }

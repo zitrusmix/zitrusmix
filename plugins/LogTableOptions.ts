@@ -9,13 +9,13 @@ export class LogTableOptions {
         this.columnWidthDefault = 20;
         this.columnWidth = new Map(Object.entries(
             {
-                id: 5
+                uri: 20
             }
         ));
 
         this.columnColors = new Map(Object.entries(
             {
-                id: '\x1b[31m'
+                uri: '\x1b[31m'
             }
         ));
     }

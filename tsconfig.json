@@ -4,7 +4,7 @@
         "allowJs": true,
         "checkJs": true,
         "strict": true,
-        "noEmit": false,
+        "noEmit": true,
         "declaration": true,
         "target": "es2017",
         "strictNullChecks": true,
