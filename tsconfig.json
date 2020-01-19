@@ -1,6 +1,7 @@
 {
     "compilerOptions": {
         "outDir": "./dist/",
+        "rootDir": "./",
         "removeComments": false,
         "allowJs": true,
         "checkJs": true,
@@ -24,6 +25,6 @@
     },
     "include": [
         "./index.*",
-        "./lib/**/*"
+        "./src/**/*"
     ]
 }
