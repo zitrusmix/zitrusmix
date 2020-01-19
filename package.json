@@ -8,9 +8,9 @@
         "lib": "lib"
     },
     "files": [
-        "lib",
-        "lib/plugins",
-        "README.md"
+        "./dist/",
+        "README.md",
+        "LICENSE"
     ],
     "scripts": {
         "build": "tsc",
