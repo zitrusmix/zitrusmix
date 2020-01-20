@@ -15,15 +15,15 @@ export class Link {
         this.attributes = attributes || new Map();
     }
 
-    [Symbol.toPrimitive]() {
-        this.toString();
+    [Symbol.toPrimitive](): string {
+        return this.toString();
     }
 
-    [Symbol.toStringTag]() {
+    [Symbol.toStringTag](): string {
         return this.constructor.name;
     }
 
-    toString() {
+    toString(): string {
         return `${this.source} -> [${this.targets.join(', ')}]`;
     }
 }

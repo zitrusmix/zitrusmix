@@ -3,7 +3,6 @@ import {Zitrusmix} from './Zitrusmix';
 import {ZitrusmixPlugin} from './interfaces/ZitrusmixPlugin';
 import {ZitrusmixCollection} from './ZitrusmixCollection';
 import {ElementURI} from './types/ElementURI';
-import {JSONString} from "./types/JSONString";
 
 export class LinkCollection {
     readonly links: Set<Link>;
@@ -14,36 +13,36 @@ export class LinkCollection {
         this.mix = mix;
     }
 
-    add(link: Link) {
+    add(link: Link): void {
         this.links.add(link)
     }
 
-    delete(link: Link)  {
+    delete(link: Link): void  {
         this.links.delete(link);
     }
 
-    clear() {
+    clear(): void {
         this.links.clear();
     }
 
-    entries() {
+    entries(): Iterable<[Link, Link]> {
         return this.links.entries();
     }
 
-    forEach(callback: (link: Link) => void) {
+    forEach(callback: (link: Link) => void): void {
         this.links.forEach(callback);
     }
 
-    has(link: Link) {
-        this.links.has(link);
+    has(link: Link): boolean {
+        return this.links.has(link);
     }
 
-    values() {
+    values(): Iterable<Link> {
         return this.links.values();
     }
 
     map<T>(callback: (link: Link) => T): Array<T> {
-        const result : Array<T> = [];
+        const result: Array<T> = [];
 
         for(const link of this.links) {
             result.push(callback(link));
@@ -52,14 +51,24 @@ export class LinkCollection {
         return result;
     }
 
-    use<T>(plugin: ZitrusmixPlugin<T>) {
+    use<T>(plugin: ZitrusmixPlugin<T>): Promise<void> | void {
         return this.getTargetElements().use(plugin);
     }
 
-    getTargetElements() {
+    getSourceElements(): ZitrusmixCollection {
+        const sourceElements = this.getSources().map(uri => this.mix.get(uri));
+
+        return new ZitrusmixCollection(this.mix, sourceElements)
+    }
+
+    getTargetElements(): ZitrusmixCollection {
         const targetElements = this.getTargets().map(uri => this.mix.get(uri));
 
         return new ZitrusmixCollection(this.mix, targetElements)
+    }
+
+    getSources(): Array<ElementURI> {
+        return this.map(link => link.source);
     }
 
     getTargets(): Array<ElementURI> {

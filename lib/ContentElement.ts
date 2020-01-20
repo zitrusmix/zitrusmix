@@ -8,6 +8,7 @@ import {MaybeArray} from './types/MaybeArray';
 import {assertElementURI} from './assert/assertElementURI';
 import {Zitrusmix} from './Zitrusmix';
 import {ensureArray} from './utils/ensureArray';
+import {LinkCollection} from "./LinkCollection";
 
 export class ContentElement {
     readonly uri: Readonly<ElementURI>;
@@ -26,21 +27,21 @@ export class ContentElement {
         return new ContentElement(this.uri, {...this.content, ...partialContent}, this.mix);
     }
 
-    addLinkTo(targets: MaybeArray<ElementURI>, relationship: string) {
+    addLinkTo(targets: MaybeArray<ElementURI>, relationship: string): void {
         const targetURIs = ensureArray(targets);
         this.mix.addLink(this.uri, targetURIs, relationship);
     }
 
-    addLinkToElements(targets: MaybeArray<ContentElement>, relationship: string) {
+    addLinkToElements(targets: MaybeArray<ContentElement>, relationship: string): void {
         const targetElements = ensureArray(targets);
         this.mix.addLink(this.uri, targetElements.map(element => element.uri), relationship);
     }
 
-    getOutgoingLinks() {
+    getOutgoingLinks(): LinkCollection {
         return this.mix.getOutgoingLinks(this.uri);
     }
 
-    getIncomingLinks() {
+    getIncomingLinks(): LinkCollection  {
         return this.mix.getIncomingLinks(this.uri);
     }
 

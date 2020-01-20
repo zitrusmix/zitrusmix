@@ -2,8 +2,6 @@ import {Zitrusmix} from "./Zitrusmix";
 import {ZitrusmixPlugin} from "./interfaces/ZitrusmixPlugin";
 import {ContentElement} from "./ContentElement";
 import {PluginContext} from "./plugin/PluginContext";
-import {ElementURI} from "./types/ElementURI";
-import {Link} from "./Link";
 import {CompareFunc} from "./types/CompareFunc";
 import {MaybeArray} from "./types/MaybeArray";
 import {ensureArray} from "./utils/ensureArray";
@@ -19,10 +17,12 @@ export class ZitrusmixCollection {
         this.elements = [...(elements || [])];
     }
 
-    use<TOptions>(plugin: ZitrusmixPlugin<TOptions>) {
+    use<TOptions>(plugin: ZitrusmixPlugin<TOptions>): Promise<any> | void {
+        let returnPromise;
+
         if (plugin.call) {
             const context = new PluginContext(this.mix, this, plugin.options);
-            plugin.call(context)
+            returnPromise = plugin.call(context);
         }
 
         if (plugin.update) {
@@ -33,17 +33,17 @@ export class ZitrusmixCollection {
             });
         }
 
-        return ;
+        return returnPromise || Promise.resolve();
     }
 
-    update(updateElementFunc: (element: ContentElement) => ContentElement) {
+    update(updateElementFunc: (element: ContentElement) => ContentElement): void {
         this.elements.forEach(element => {
             const updatedElement = updateElementFunc(element);
             this.mix.update(updatedElement.uri, updatedElement.content);
         });
     }
 
-    sort<T>(compare:CompareFunc<ContentElement>) {
+    sort<T>(compare: CompareFunc<ContentElement>): ZitrusmixCollection {
         const sortedCollection = new ZitrusmixCollection(this.mix, this.elements);
 
         sortedCollection.elements.sort((a, b) => {
@@ -53,24 +53,24 @@ export class ZitrusmixCollection {
         return sortedCollection;
     }
 
-    linkTo(elements: MaybeArray<ContentElement>, relationship: string, attributes?: Map<string, any>) {
+    linkTo(elements: MaybeArray<ContentElement>, relationship: string, attributes?: Map<string, any>): void {
         this.elements.forEach(element => {
             const targets = ensureArray(elements).map(element => element.uri);
             this.mix.addLink(element.uri, targets, relationship, attributes);
         });
     }
 
-    filter(predicate: ContentElementPredicate) {
+    filter(predicate: ContentElementPredicate): ZitrusmixCollection {
         const elements = this.elements.filter(element => predicate(element.content, element));
 
         return new ZitrusmixCollection(this.mix, elements);
     }
 
-    filterByLinkTo(targetElement: ContentElement) {
-        return new ZitrusmixCollection(this.mix, this.elements);
+    filterByLinkTo(targetElement: ContentElement): ZitrusmixCollection {
+        return targetElement.getIncomingLinks().getSourceElements();
     }
 
-    find(predicate: ContentElementPredicate) {
+    find(predicate: ContentElementPredicate): ContentElement | undefined {
         return this.elements.find(element => predicate(element.content, element));
     }
 }

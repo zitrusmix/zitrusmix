@@ -1,4 +1,3 @@
-import {createId} from '../lib/utils/createId';
 import {expect} from 'chai';
 import 'mocha';
 import {Link} from "../lib/Link";

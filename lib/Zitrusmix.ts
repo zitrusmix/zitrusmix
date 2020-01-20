@@ -15,7 +15,7 @@ import {assertElementExists} from "./assert/assertElementExists";
 import {LinkStorage} from "./LinkStorage";
 
 export class Zitrusmix {
-    private readonly options : ZitrusmixOptions;
+    private readonly options: ZitrusmixOptions;
     private readonly elementMap: Map<ElementURI, ContentElement>;
     private readonly linkStorage: LinkStorage;
 
@@ -32,11 +32,11 @@ export class Zitrusmix {
         return [...this.elementMap.values()] as Array<ContentElement>;
     }
 
-    all() {
+    all(): ZitrusmixCollection {
         return new ZitrusmixCollection(this, this.elements);
     }
 
-    use<T>(plugin: ZitrusmixPlugin<T>) {
+    use<T>(plugin: ZitrusmixPlugin<T>): Promise<void> | void {
         return this.all().use(plugin);
     }
 
@@ -44,19 +44,22 @@ export class Zitrusmix {
      * @param uri
      * @param content
      */
-    add(uri: ElementURI, content?: Content) {
+    add(uri: ElementURI, content?: Content): ContentElement {
         const element = new ContentElement(uri, strictClone(content || {}), this);
         this.setElement(element);
 
         return element;
     }
 
-    addLink(source: ElementURI, targets: MaybeArray<ElementURI>, relationship: string, attributes?: Map<string, any>) {
+    addLink(
+        source: ElementURI,
+        targets: MaybeArray<ElementURI>,
+        relationship: string, attributes?: Map<string, any>): void {
         const link = new Link(source, ensureArray(targets), relationship, attributes);
         this.linkStorage.add(link);
     }
 
-    getElementById(uri: ElementURI) {
+    getElementById(uri: ElementURI): ContentElement | undefined {
         return this.elementMap.get(uri);
     }
 
@@ -71,27 +74,23 @@ export class Zitrusmix {
         return this.linkStorage.values()
     }
 
-    getOutgoingLinks(uri: ElementURI) {
+    getOutgoingLinks(uri: ElementURI): LinkCollection {
         return this.linkStorage.getOutgoingLinks(uri);
     }
 
-    getIncomingLinks(uri: ElementURI) {
+    getIncomingLinks(uri: ElementURI): LinkCollection {
         return this.linkStorage.getIncomingLinks(uri);
     }
 
-    getElementsLinkedTo(uri: ElementURI) {
-       return new ZitrusmixCollection(this, []);
-    }
-
-    filter(predicate: ContentElementPredicate) {
+    filter(predicate: ContentElementPredicate): ZitrusmixCollection {
         return this.all().filter(predicate);
     }
 
-    find(predicate: ContentElementPredicate) {
+    find(predicate: ContentElementPredicate): ContentElement | undefined {
         return this.all().find(predicate);
     }
 
-    update(uri: ElementURI, content: Content) {
+    update(uri: ElementURI, content: Content): void {
         const element = this.getElementById(uri);
         assertElementExists(element, uri);
 
@@ -99,7 +98,7 @@ export class Zitrusmix {
         this.setElement(updatedElement);
     }
 
-    forEach(callback: (element: ContentElement) => void) {
+    forEach(callback: (element: ContentElement) => void): void {
         this.elements.forEach(callback);
     }
 
@@ -107,12 +106,12 @@ export class Zitrusmix {
         return Array.from(this.elementMap, ([key, value]) => mapFunc(value, key));
     }
 
-    clear() {
+    clear(): void {
         this.elementMap.clear();
         this.linkStorage.clear();
     }
 
-    delete(uri: ElementURI) {
+    delete(uri: ElementURI): void {
         this.elementMap.delete(uri);
         this.linkStorage.removeElement(uri);
     }
@@ -174,20 +173,19 @@ export class Zitrusmix {
     // }
 
 
-
-    has(uri: ElementURI) {
+    has(uri: ElementURI): boolean {
         return this.elementMap.has(uri);
     }
 
-    keys() {
+    keys(): Iterable<ElementURI>  {
         return this.elementMap.keys();
     }
 
-    values() {
+    values(): Iterable<ContentElement> {
         return this.elementMap.values();
     }
 
-    private setElement(contentElement: ContentElement) {
+    private setElement(contentElement: ContentElement): void {
         this.elementMap.set(contentElement.uri, contentElement);
     }
 

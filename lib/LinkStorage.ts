@@ -14,7 +14,7 @@ export class LinkStorage {
         this.targetMap = new Map();
     }
 
-    add(link: Link) {
+    add(link: Link): void {
         const sourceLinkCollection = this.sourceMap.get(link.source) || new LinkCollection(this.mix);
         sourceLinkCollection.add(link);
         this.sourceMap.set(link.source, sourceLinkCollection);
@@ -30,11 +30,11 @@ export class LinkStorage {
         return this.sourceMap.get(uri) || new LinkCollection(this.mix);
     }
 
-    getIncomingLinks(uri: ElementURI) {
+    getIncomingLinks(uri: ElementURI): LinkCollection {
         return this.targetMap.get(uri) || new LinkCollection(this.mix);
     }
 
-    delete(link: Link) {
+    delete(link: Link): void {
         const sourceLinkCollection = this.sourceMap.get(link.source) || new LinkCollection(this.mix);
         sourceLinkCollection.delete(link);
 
@@ -44,12 +44,12 @@ export class LinkStorage {
         });
     }
 
-    removeElement(uri: ElementURI) {
+    removeElement(uri: ElementURI): void {
         this.removeOutgoingLinks(uri);
         this.removeIncomingLinks(uri);
     }
 
-    removeIncomingLinks(uri: ElementURI) {
+    removeIncomingLinks(uri: ElementURI): void {
         const linkCollection = this.targetMap.get(uri) || new LinkCollection(this.mix);
         this.targetMap.delete(uri);
 
@@ -62,7 +62,7 @@ export class LinkStorage {
         });
     }
 
-    removeOutgoingLinks(uri: ElementURI) {
+    removeOutgoingLinks(uri: ElementURI): void {
         const sourceLinkCollection = this.sourceMap.get(uri) || new LinkCollection(this.mix);
 
         sourceLinkCollection.forEach(link => {
@@ -85,7 +85,7 @@ export class LinkStorage {
         return new LinkCollection(this.mix, allLinks);
     }
 
-    clear() {
+    clear(): void {
         this.sourceMap.clear();
         this.targetMap.clear();
     }

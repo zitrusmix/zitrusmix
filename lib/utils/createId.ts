@@ -1,8 +1,8 @@
 import {ElementURI} from "../types/ElementURI";
 
-let lastCreatedId: number = 0;
+let lastCreatedId = 0;
 
-const RADIX:number = 10;
+const RADIX = 10;
 
 /**
  * Creates an autoincrement identifier.

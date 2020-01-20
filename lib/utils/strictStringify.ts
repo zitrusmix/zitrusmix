@@ -2,8 +2,8 @@
 
 import {JSONString} from '../types/JSONString';
 
-export function strictStringify<T extends object>(obj:T):JSONString {
-    let json:string;
+export function strictStringify<T extends object>(obj: T): JSONString {
+    let json: string;
 
     try {
         json = JSON.stringify(obj);

@@ -1,13 +1,13 @@
 'use strict';
 
 type StringIndex<T> = {
-    [key: string]: T
+    [key: string]: T;
 }
 
 /**
  * Based on MDN (https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object/freeze)
  */
-export function deepFreeze(obj: StringIndex<any>) {
+export function deepFreeze<T>(obj: T): T {
     // Retrieve the property names defined on object
     const propNames = Object.getOwnPropertyNames(obj);
 
