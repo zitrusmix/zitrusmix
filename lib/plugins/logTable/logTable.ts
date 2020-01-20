@@ -1,7 +1,7 @@
 import {LogTableOptions} from './LogTableOptions';
-import {Zitrusmix} from '../Zitrusmix';
-import {ZitrusmixPlugin} from '../interfaces/ZitrusmixPlugin';
-import {PluginContext} from "../plugin/PluginContext";
+import {Zitrusmix} from '../../Zitrusmix';
+import {ZitrusmixPlugin} from '../../interfaces/ZitrusmixPlugin';
+import {PluginContext} from "../../plugin/PluginContext";
 
 const RESET = '\x1b[0m';
 
