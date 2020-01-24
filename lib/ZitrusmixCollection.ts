@@ -6,10 +6,12 @@ import {CompareFunc} from "./types/CompareFunc";
 import {MaybeArray} from "./types/MaybeArray";
 import {ensureArray} from "./utils/ensureArray";
 import {ContentElementPredicate} from "./interfaces/ContentElementPredicate";
+import {Lock} from "./guards/Lock";
+
+const pluginLock = new Lock('Only one plugin can run at the same time. Please await until a plugin is resolved before using another plugin.');
 
 export class ZitrusmixCollection {
     private readonly mix: Zitrusmix;
-
     readonly elements: Array<ContentElement>;
 
     constructor(mix: Zitrusmix, elements?: Array<ContentElement>) {
@@ -18,6 +20,8 @@ export class ZitrusmixCollection {
     }
 
     use<TOptions>(plugin: ZitrusmixPlugin<TOptions>): Promise<any> | void {
+        pluginLock.activate();
+
         let returnPromise;
 
         if (plugin.call) {
@@ -32,6 +36,8 @@ export class ZitrusmixCollection {
                 this.mix.update(updatedElement.uri, updatedElement.content);
             });
         }
+
+        pluginLock.release(returnPromise);
 
         return returnPromise || Promise.resolve();
     }
