@@ -23,6 +23,7 @@ export class Zitrusmix {
         this.options = Object.assign(new ZitrusmixOptions(), options || {});
         this.elementMap = new Map();
         this.linkStorage = new LinkStorage(this);
+
     }
 
     all(): ZitrusmixCollection {
