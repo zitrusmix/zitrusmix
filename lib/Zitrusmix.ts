@@ -25,15 +25,8 @@ export class Zitrusmix {
         this.linkStorage = new LinkStorage(this);
     }
 
-    /**
-     * Returns a readonly list of all elements.
-     */
-    get elements(): Array<ContentElement> {
-        return [...this.elementMap.values()] as Array<ContentElement>;
-    }
-
     all(): ZitrusmixCollection {
-        return new ZitrusmixCollection(this, this.elements);
+        return new ZitrusmixCollection(this, [...this.elementMap.values()]);
     }
 
     use<T>(plugin: ZitrusmixPlugin<T>): Promise<void> | void {
@@ -99,7 +92,7 @@ export class Zitrusmix {
     }
 
     forEach(callback: (element: ContentElement) => void): void {
-        this.elements.forEach(callback);
+        this.elementMap.forEach(callback);
     }
 
     map<T>(mapFunc: (element: ContentElement, uri: ElementURI) => T): Array<T> {
@@ -196,7 +189,7 @@ export class Zitrusmix {
     toJSON(): object {
         return {
             options: this.options,
-            elements: this.elements.map(element => element.toJSON()),
+            elements: Array.from(this.elementMap.values(), element => element.toJSON()),
             links: this.linkStorage.toJSON()
         };
     }

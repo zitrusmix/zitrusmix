@@ -16,6 +16,8 @@
         "lint": "eslint . --ext .ts",
         "fix": "eslint . --ext .ts --fix",
         "test": "mocha -r ts-node/register ./test/**/*.test.ts",
+        "single-test": "npx mocha -r ts-node/register",
+        "coverage": "nyc npm run test",
         "prepublishOnly": "npm run build"
     },
     "repository": {
@@ -39,16 +41,19 @@
     "devDependencies": {
         "@types/chai": "^4.2.7",
         "@types/mocha": "^5.2.7",
-        "@types/node": "^13.1.6",
+        "@types/node": "^13.1.8",
         "@typescript-eslint/eslint-plugin": "^2.16.0",
-        "@typescript-eslint/parser": "^2.16.0",
+        "@typescript-eslint/parser": "^2.17.0",
         "chai": "^4.2.0",
         "eslint": "^6.8.0",
-        "mocha": "^6.0.0",
+        "mocha": "^7.0.0",
+        "nyc": "^15.0.0",
         "ts-node": "^8.6.1",
         "typescript": "^3.7.5"
     },
     "engines": {
         "node": ">=12.0.0"
+    },
+    "dependencies": {
     }
 }

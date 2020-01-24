@@ -1,4 +1,4 @@
-import {createId} from '../lib/utils/createId';
+import {createId} from '../../lib/utils/createId';
 import {expect} from 'chai';
 import 'mocha';
 

@@ -3,7 +3,7 @@ import {URL} from "url";
 
 export function assertElementURI(uri: ElementURI): asserts uri is ElementURI {
     try {
-        new URL('uri:' + uri);
+        new URL('http:' + uri);
     } catch (error) {
         throw new Error(`Element requires a valid URI. URI shall not contain any schema like "http:".`);
     }

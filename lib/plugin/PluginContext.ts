@@ -1,7 +1,7 @@
 import {ZitrusmixCollection} from "../ZitrusmixCollection";
 import {Zitrusmix} from "../Zitrusmix";
 
-export class PluginContext<TOptions = {}> {
+export class PluginContext<TOptions = null> {
     readonly mix: Zitrusmix;
     readonly collection: ZitrusmixCollection;
     readonly options: TOptions | null;
