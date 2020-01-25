@@ -1,6 +1,6 @@
 {
     "name": "zitrusmix",
-    "version": "0.9.1",
+    "version": "0.10.0",
     "description": "A (static) content generator and mixer",
     "main": "./dist/lib/index.js",
     "types": "./dist/lib/index.d.ts",
