@@ -43,7 +43,7 @@ describe('Zitrusmix()', function () {
 
             // When
             const plugin = {
-                update: element => element.update({text: 'foo2'})
+                update: element => element.updateContent({text: 'foo2'})
             } as ZitrusmixPlugin;
             mix.use(plugin);
 

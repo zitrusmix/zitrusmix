@@ -23,8 +23,12 @@ export class ContentElement {
         this.mix = mix;
     }
 
-    update(partialContent: Partial<Content>): ContentElement {
+    updatePartialContent(partialContent: Partial<Content>): ContentElement {
         return new ContentElement(this.uri, {...this.content, ...partialContent}, this.mix);
+    }
+
+    updateContent(content: Content): ContentElement {
+        return new ContentElement(this.uri, content, this.mix);
     }
 
     addLinkTo(targets: MaybeArray<ElementURI>, relationship: string): void {
