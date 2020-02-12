@@ -84,12 +84,14 @@ export class Zitrusmix {
         return this.all().find(predicate);
     }
 
-    update(uri: ElementURI, content: Content): void {
+    update(uri: ElementURI, content: Content): ContentElement {
         const element = this.getElementById(uri);
         assertElementExists(element, uri);
 
-        const updatedElement = new ContentElement(uri, strictClone(content), this);
+        const updatedElement = new ContentElement(uri, content, this);
         this.setElement(updatedElement);
+
+        return updatedElement;
     }
 
     forEach(callback: (element: ContentElement) => void): void {

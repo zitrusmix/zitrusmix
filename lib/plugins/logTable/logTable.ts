@@ -39,7 +39,7 @@ export function logTable(options?: LogTableOptions): ZitrusmixPlugin<LogTableOpt
             };
 
             row.column.set('uri', element.uri);
-            Object.entries(element.content).forEach(([key, value]) => row.column.set(key, value));
+            Object.entries(element).forEach(([key, value]) => row.column.set(key, value));
 
             return row;
         });

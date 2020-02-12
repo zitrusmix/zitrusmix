@@ -4,7 +4,7 @@ import {ZitrusmixPlugin} from './interfaces/ZitrusmixPlugin';
 import {ZitrusmixCollection} from './ZitrusmixCollection';
 import {ElementURI} from './types/ElementURI';
 
-export class LinkCollection {
+export class LinkCollection implements Iterable<Link>{
     readonly links: Set<Link>;
     readonly mix: Zitrusmix;
 
@@ -37,7 +37,7 @@ export class LinkCollection {
         return this.links.has(link);
     }
 
-    values(): Iterable<Link> {
+    values(): IterableIterator<Link> {
         return this.links.values();
     }
 

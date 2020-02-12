@@ -32,8 +32,7 @@ export class ZitrusmixCollection {
         if (plugin.update) {
             const updateFunc = plugin.update;
             this.elements.forEach(element => {
-                const updatedElement = updateFunc(element, plugin.options);
-                this.mix.update(updatedElement.uri, updatedElement.content);
+                updateFunc(element, plugin.options);
             });
         }
 
@@ -42,11 +41,8 @@ export class ZitrusmixCollection {
         return returnPromise || Promise.resolve();
     }
 
-    update(updateElementFunc: (element: ContentElement) => ContentElement): void {
-        this.elements.forEach(element => {
-            const updatedElement = updateElementFunc(element);
-            this.mix.update(updatedElement.uri, updatedElement.content);
-        });
+    forEach(updateElementFunc: (element: ContentElement) => void): void {
+        this.elements.forEach(updateElementFunc);
     }
 
     sort<T>(compare: CompareFunc<ContentElement>): ZitrusmixCollection {
@@ -67,7 +63,7 @@ export class ZitrusmixCollection {
     }
 
     filter(predicate: ContentElementPredicate): ZitrusmixCollection {
-        const elements = this.elements.filter(element => predicate(element.content, element));
+        const elements = this.elements.filter(element => predicate(element));
 
         return new ZitrusmixCollection(this.mix, elements);
     }
@@ -77,6 +73,6 @@ export class ZitrusmixCollection {
     }
 
     find(predicate: ContentElementPredicate): ContentElement | undefined {
-        return this.elements.find(element => predicate(element.content, element));
+        return this.elements.find(predicate);
     }
 }

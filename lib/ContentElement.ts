@@ -6,59 +6,80 @@ import {Content} from './types/Content';
 import {deepFreeze} from './utils/deepFreeze';
 import {MaybeArray} from './types/MaybeArray';
 import {assertElementURI} from './assert/assertElementURI';
+import {assertContentURI} from './assert/assertContentURI';
 import {Zitrusmix} from './Zitrusmix';
 import {ensureArray} from './utils/ensureArray';
 import {LinkCollection} from "./LinkCollection";
 
 export class ContentElement {
-    readonly uri: Readonly<ElementURI>;
-    readonly content: Readonly<Content>;
-    readonly mix: Zitrusmix;
+    #uri: ElementURI;
+    #mix: Zitrusmix;
+    [key: string]: any;
 
     constructor(uri: ElementURI, content: Content = {}, mix: Zitrusmix) {
         assertElementURI(uri);
 
-        this.uri = uri;
-        this.content = deepFreeze(strictClone(content || {})) as Readonly<Content>;
-        this.mix = mix;
+        this.#uri = uri;
+        this.#mix = mix;
+
+        const cleanContent = deepFreeze(strictClone(content || {}));
+
+        Object.assign(this, cleanContent);
     }
 
-    updatePartialContent(partialContent: Partial<Content>): ContentElement {
-        const updatedElement = new ContentElement(this.uri, {...this.content, ...partialContent}, this.mix);
-        this.mix.update(updatedElement.uri, updatedElement.content);
-
-        return updatedElement;
+    get uri(): ElementURI {
+        return this.#uri;
     }
 
-    updateContent(content: Content): ContentElement {
-        const updatedElement =  new ContentElement(this.uri, content, this.mix);
-        this.mix.update(updatedElement.uri, updatedElement.content);
-
-        return updatedElement;
+    set uri(value: ElementURI) {
+        assertContentURI(this.#uri, value);
     }
 
-    addLinkTo(targets: MaybeArray<ElementURI>, relationship: string): void {
+    patch(patch: Partial<Content>): ContentElement {
+        const patchedElement = this.#mix.update(this.#uri, {...this, ...patch});
+
+        Object.assign(this, patchedElement);
+
+        return this;
+    }
+
+    update(content: Content): ContentElement {
+        const updatedElement = this.#mix.update(this.#uri, content);
+
+        this.deleteAllContentProperties();
+        Object.assign(this, updatedElement);
+
+        return this;
+    }
+
+    addLinkTo(targets: MaybeArray<ElementURI>, relationship: string): ContentElement {
         const targetURIs = ensureArray(targets);
-        this.mix.addLink(this.uri, targetURIs, relationship);
+        this.#mix.addLink(this.uri, targetURIs, relationship);
+
+        return this;
     }
 
     addLinkToElements(targets: MaybeArray<ContentElement>, relationship: string): void {
         const targetElements = ensureArray(targets);
-        this.mix.addLink(this.uri, targetElements.map(element => element.uri), relationship);
+        this.#mix.addLink(this.uri, targetElements.map(element => element.uri), relationship);
     }
 
     getOutgoingLinks(): LinkCollection {
-        return this.mix.getOutgoingLinks(this.uri);
+        return this.#mix.getOutgoingLinks(this.uri);
     }
 
     getIncomingLinks(): LinkCollection  {
-        return this.mix.getIncomingLinks(this.uri);
+        return this.#mix.getIncomingLinks(this.uri);
     }
 
     toJSON(): object {
         return {
             uri: this.uri,
-            content: this.content
+            ...this
         };
+    }
+
+    private deleteAllContentProperties(): void {
+        Object.keys(this).forEach(key => delete this[key]);
     }
  }
