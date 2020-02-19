@@ -6,7 +6,7 @@ import {Content} from './types/Content';
 import {deepFreeze} from './utils/deepFreeze';
 import {MaybeArray} from './types/MaybeArray';
 import {assertElementURI} from './assert/assertElementURI';
-import {assertContentURI} from './assert/assertContentURI';
+import {assertStableElementURI} from './assert/assertStableElementURI';
 import {Zitrusmix} from './Zitrusmix';
 import {ensureArray} from './utils/ensureArray';
 import {LinkCollection} from "./LinkCollection";
@@ -32,7 +32,7 @@ export class ContentElement {
     }
 
     set uri(value: ElementURI) {
-        assertContentURI(this.#uri, value);
+        assertStableElementURI(this.#uri, value);
     }
 
     patch(patch: Partial<Content>): ContentElement {
@@ -52,16 +52,18 @@ export class ContentElement {
         return this;
     }
 
-    addLinkTo(targets: MaybeArray<ElementURI>, relationship: string): ContentElement {
+    linkTo(targets: MaybeArray<ElementURI>, relationship: string): ContentElement {
         const targetURIs = ensureArray(targets);
         this.#mix.addLink(this.uri, targetURIs, relationship);
 
         return this;
     }
 
-    addLinkToElements(targets: MaybeArray<ContentElement>, relationship: string): void {
+    linkToElements(targets: MaybeArray<ContentElement>, relationship: string): ContentElement {
         const targetElements = ensureArray(targets);
         this.#mix.addLink(this.uri, targetElements.map(element => element.uri), relationship);
+
+        return this;
     }
 
     getOutgoingLinks(): LinkCollection {

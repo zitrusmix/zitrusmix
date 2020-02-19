@@ -48,7 +48,8 @@ export class Zitrusmix {
     addLink(
         source: ElementURI,
         targets: MaybeArray<ElementURI>,
-        relationship: string, attributes?: Map<string, any>): void {
+        relationship: string,
+        attributes?: Map<string, any>): void {
         const link = new Link(source, ensureArray(targets), relationship, attributes);
         this.linkStorage.add(link);
     }

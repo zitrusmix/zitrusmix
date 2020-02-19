@@ -2,6 +2,7 @@ import {expect} from 'chai';
 import 'mocha';
 import {ContentElement, Zitrusmix} from '../../lib';
 import {Link} from "../../lib/Link";
+import {ZitrusmixError} from "../../lib/assert/ZitrusmixError";
 
 describe('ContentElement', function () {
     describe('constructor()', function () {
@@ -16,15 +17,18 @@ describe('ContentElement', function () {
             expect(element.name).to.equal('Vienna');
         });
 
-        it('throws an error when content contains a different URI', function() {
+        it('throws an error when content uses a different URI', function() {
             // Given
             const mix = new Zitrusmix();
 
-            // When
-            const when = (): ContentElement => new ContentElement('VIE', {uri: 'BZO'}, mix);
-
-            // Then
-            expect(when).to.throw('Content URI must be undefined, null or equal to element URI.');
+            try {
+                // When
+                new ContentElement('VIE', {uri: 'BZO'}, mix);
+            } catch(error) {
+                // Then
+                const expectedError = new ZitrusmixError('stable-element-uri-error', 'The URI of a <ContentElement> can not be changed.');
+                expect(error.message).to.deep.equal(expectedError.message);
+            }
         });
     });
 
@@ -142,7 +146,7 @@ describe('ContentElement', function () {
         });
     });
 
-    describe('addLinkTo()', function() {
+    describe('linkTo()', function() {
         it('creates a link to another element', function() {
             // Given
             const mix = new Zitrusmix();
@@ -150,7 +154,7 @@ describe('ContentElement', function () {
             const bolzano = new ContentElement('BZO', {name: 'Bolzano'}, mix);
 
             // When
-            vienna.addLinkTo(bolzano.uri, 'train');
+            vienna.linkTo(bolzano.uri, 'train');
 
             // Then
             const expectedLink = new Link(vienna.uri, [bolzano.uri], 'train');
