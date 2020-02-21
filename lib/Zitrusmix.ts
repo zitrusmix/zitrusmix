@@ -11,7 +11,7 @@ import {strictClone} from './utils/strictClone';
 import {MaybeArray} from "./types/MaybeArray";
 import {ensureArray} from "./utils/ensureArray";
 import {LinkCollection} from "./LinkCollection";
-import {assertElementExists} from "./assert/assertElementExists";
+import {assertElementExists} from "./guards/assert/assertElementExists";
 import {LinkStorage} from "./LinkStorage";
 
 export class Zitrusmix {

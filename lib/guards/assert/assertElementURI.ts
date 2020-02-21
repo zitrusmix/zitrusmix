@@ -1,4 +1,4 @@
-import {ElementURI} from "../types/ElementURI";
+import {ElementURI} from "../../types/ElementURI";
 import {URL} from "url";
 
 export function assertElementURI(uri: ElementURI): asserts uri is ElementURI {

@@ -2,7 +2,7 @@ import {expect} from 'chai';
 import 'mocha';
 import {ContentElement, Zitrusmix} from '../../lib';
 import {Link} from "../../lib/Link";
-import {ZitrusmixError} from "../../lib/assert/ZitrusmixError";
+import {ZitrusmixError} from "../../lib/guards/ZitrusmixError";
 
 describe('ContentElement', function () {
     describe('constructor()', function () {
