@@ -56,15 +56,11 @@ export class LinkCollection implements Iterable<Link>{
     }
 
     getSourceElements(): ZitrusmixCollection {
-        const sourceElements = this.getSources().map(uri => this.mix.get(uri));
-
-        return new ZitrusmixCollection(this.mix, sourceElements)
+        return new ZitrusmixCollection(this.mix,  this.getSources())
     }
 
     getTargetElements(): ZitrusmixCollection {
-        const targetElements = this.getTargets().map(uri => this.mix.get(uri));
-
-        return new ZitrusmixCollection(this.mix, targetElements)
+        return new ZitrusmixCollection(this.mix, this.getTargets())
     }
 
     getSources(): Array<ElementURI> {

@@ -27,7 +27,7 @@ export class Zitrusmix {
     }
 
     all(): ZitrusmixCollection {
-        return new ZitrusmixCollection(this, [...this.elementMap.values()]);
+        return new ZitrusmixCollection(this, [...this.elementMap.keys()]);
     }
 
     use<T>(plugin: ZitrusmixPlugin<T>): Promise<void> | void {
@@ -93,6 +93,15 @@ export class Zitrusmix {
         this.setElement(updatedElement);
 
         return updatedElement;
+    }
+
+    updateElement(element: ContentElement): ContentElement {
+        const currentElement = this.getElementById(element.uri);
+        assertElementExists(currentElement, element.uri);
+
+        this.setElement(element);
+
+        return element;
     }
 
     forEach(callback: (element: ContentElement) => void): void {

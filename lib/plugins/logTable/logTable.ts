@@ -4,6 +4,13 @@ import {PluginContext} from '../../plugin/PluginContext';
 
 const RESET = '\x1b[0m';
 
+class Row {
+    readonly column: Map<string, any>;
+    constructor() {
+        this.column = new Map<string, any>()
+    }
+}
+
 export function logTable(options?: LogTableOptions): ZitrusmixPlugin<LogTableOptions> {
     function formatCell(columnName: string, value: any | null, options: LogTableOptions): string {
         let cellText = (value || '').toString();
@@ -33,10 +40,8 @@ export function logTable(options?: LogTableOptions): ZitrusmixPlugin<LogTableOpt
     function logTablePlugin(context: PluginContext<LogTableOptions>): void {
         const options = Object.assign(new LogTableOptions(), context.options);
 
-        const rows = context.collection.elements.map(element => {
-            const row = {
-                column: new Map<string, any>()
-            };
+        const rows: Array<Row> = Array.from(context.collection).map(element => {
+            const row = new Row();
 
             row.column.set('uri', element.uri);
             Object.entries(element).forEach(([key, value]) => row.column.set(key, value));

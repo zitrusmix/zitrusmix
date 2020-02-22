@@ -10,7 +10,7 @@ function assertIsPluginContext(obj: any): asserts obj is PluginContext {
     }
 }
 
-describe('Zitrusmix()', function () {
+describe('Zitrusmix', function () {
     describe('add()', function () {
         it('adds content', function () {
             // Given

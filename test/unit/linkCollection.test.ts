@@ -4,7 +4,7 @@ import {Link} from '../../lib/Link';
 import {LinkCollection} from '../../lib/LinkCollection';
 import {Zitrusmix} from '../../lib';
 
-describe('LinkCollection()', function () {
+describe('LinkCollection', function () {
     describe('add()', () => {
         it('adds a link', () => {
             // Given

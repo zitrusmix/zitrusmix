@@ -81,6 +81,10 @@ export class ContentElement {
         };
     }
 
+    clone(): ContentElement {
+        return new ContentElement(this.uri, this, this.#mix);
+    }
+
     private deleteAllContentProperties(): void {
         Object.keys(this).forEach(key => delete this[key]);
     }

@@ -7,16 +7,21 @@ import {MaybeArray} from "./types/MaybeArray";
 import {ensureArray} from "./utils/ensureArray";
 import {ContentElementPredicate} from "./interfaces/ContentElementPredicate";
 import {PluginLock} from "./guards/locks/PluginLock";
+import {ElementURI} from "./types/ElementURI";
 
 const pluginLock = new PluginLock();
 
-export class ZitrusmixCollection {
-    private readonly mix: Zitrusmix;
-    readonly elements: Array<ContentElement>;
+export class ZitrusmixCollection implements Iterable<ContentElement> {
+    #elementURIs: Array<ElementURI>;
+    readonly #mix: Zitrusmix;
 
-    constructor(mix: Zitrusmix, elements?: Array<ContentElement>) {
-        this.mix = mix;
-        this.elements = [...(elements || [])];
+    constructor(mix: Zitrusmix, elementURIs?: Array<ElementURI>) {
+        this.#mix = mix;
+        this.#elementURIs = Array.from(elementURIs || []);
+    }
+
+    getElements(): Array<ContentElement> {
+        return this.#elementURIs.map(this.#mix.get);
     }
 
     use<TOptions>(plugin: ZitrusmixPlugin<TOptions>): Promise<any> | void {
@@ -25,15 +30,15 @@ export class ZitrusmixCollection {
         let returnPromise;
 
         if (plugin.call) {
-            const context = new PluginContext(this.mix, this, plugin.options);
+            const context = new PluginContext(this.#mix, this, plugin.options);
             returnPromise = plugin.call(context);
         }
 
         if (plugin.update) {
             const updateFunc = plugin.update;
-            this.elements.forEach(element => {
+            for(const element of this.values()) {
                 updateFunc(element, plugin.options);
-            });
+            }
         }
 
         pluginLock.unlock(returnPromise);
@@ -41,31 +46,37 @@ export class ZitrusmixCollection {
         return returnPromise || Promise.resolve();
     }
 
-    forEach(updateElementFunc: (element: ContentElement) => void): void {
-        this.elements.forEach(updateElementFunc);
+    forEach(elementCallbackFunc: (element: ContentElement) => void): void {
+        for(const element of this.values()) {
+            elementCallbackFunc(element);
+        }
     }
 
     sort<T>(compare: CompareFunc<ContentElement>): ZitrusmixCollection {
-        const sortedCollection = new ZitrusmixCollection(this.mix, this.elements);
-
-        sortedCollection.elements.sort((a, b) => {
+        const sortedElements = this.getElements().sort((a, b) => {
             return compare(a, b)
         });
 
-        return sortedCollection;
+        return new ZitrusmixCollection(this.#mix, sortedElements.map(element => element.uri));
     }
 
     linkTo(elements: MaybeArray<ContentElement>, relationship: string, attributes?: Map<string, any>): void {
-        this.elements.forEach(element => {
+        for(const element of this.values()) {
             const targets = ensureArray(elements).map(element => element.uri);
-            this.mix.addLink(element.uri, targets, relationship, attributes);
-        });
+            this.#mix.addLink(element.uri, targets, relationship, attributes);
+        }
     }
 
     filter(predicate: ContentElementPredicate): ZitrusmixCollection {
-        const elements = this.elements.filter(element => predicate(element));
+        const elementUris: Array<ElementURI> = [];
 
-        return new ZitrusmixCollection(this.mix, elements);
+        for(const element of this.values()) {
+            if (predicate(element)) {
+                elementUris.push(element.uri);
+            }
+        }
+
+        return new ZitrusmixCollection(this.#mix, elementUris);
     }
 
     filterByLinkTo(targetElement: ContentElement): ZitrusmixCollection {
@@ -73,6 +84,29 @@ export class ZitrusmixCollection {
     }
 
     find(predicate: ContentElementPredicate): ContentElement | undefined {
-        return this.elements.find(predicate);
+        let contentElement;
+
+        for(const element of this.values()) {
+            if (predicate(element)) {
+                contentElement = element;
+                break;
+            }
+        }
+
+        return contentElement;
+    }
+
+    keys(): Array<ElementURI> {
+        return Array.from(this.#elementURIs);
+    }
+
+    *values(): IterableIterator<ContentElement> {
+        for(const uri of this.#elementURIs) {
+            yield this.#mix.get(uri);
+        }
+    }
+
+    [Symbol.iterator](): IterableIterator<ContentElement> {
+        return this.values();
     }
 }
