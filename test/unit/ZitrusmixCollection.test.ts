@@ -9,6 +9,34 @@ const asnycPlugin = {
 };
 
 describe('ZitrusmixCollection', function () {
+    describe('add()', () => {
+        it('adds a element URI to the collection', () => {
+            // Given
+            const mix = new Zitrusmix();
+            mix.add('VIE', {name: 'Vienna'});
+            const collection = mix.createCollection();
+
+            // When
+            collection.add('VIE');
+
+            // Then
+            expect(collection.keys()).to.deep.equal(['VIE']);
+        });
+
+        it('throws an error if element URI does not exist', () => {
+            // Given
+            const mix = new Zitrusmix();
+            const collection = mix.all();
+
+            // When
+            const error = callAndCatch(() => collection.add('VIE'));
+
+            // Then
+            const expectedError = new ZitrusmixError('collection-add-element-missing-error', `No element with URI "VIE" available. Add element to mix before adding it to a collection.`);
+            expect(error && error.message).to.deep.equal(expectedError.message);
+        });
+    });
+
     describe('use()', () => {
         it('throws an error when using a plugin before the previous plugin promise was resolved', () => {
             // Given

@@ -30,6 +30,14 @@ export class Zitrusmix {
         return new ZitrusmixCollection(this, [...this.elementMap.keys()]);
     }
 
+    /**
+     * Creates an empty collection.
+     * @returns {ZitrusmixCollection}
+     */
+    createCollection(): ZitrusmixCollection {
+        return new ZitrusmixCollection(this, []);
+    }
+
     use<T>(plugin: ZitrusmixPlugin<T>): Promise<void> | void {
         return this.all().use(plugin);
     }

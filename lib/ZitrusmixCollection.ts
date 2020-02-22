@@ -8,6 +8,7 @@ import {ensureArray} from "./utils/ensureArray";
 import {ContentElementPredicate} from "./types/ContentElementPredicate";
 import {PluginLock} from "./guards/locks/PluginLock";
 import {ElementURI} from "./types/ElementURI";
+import {ZitrusmixError} from "./guards/ZitrusmixError";
 
 const pluginLock = new PluginLock();
 
@@ -18,6 +19,14 @@ export class ZitrusmixCollection implements Iterable<ContentElement> {
     constructor(mix: Zitrusmix, elementURIs?: Array<ElementURI>) {
         this.#mix = mix;
         this.#elementURIs = Array.from(elementURIs || []);
+    }
+
+    add(elementURI: ElementURI): void {
+        if (!this.#mix.has(elementURI)) {
+             throw new ZitrusmixError('collection-add-element-missing-error', `No element with URI "${elementURI}" available. Add element to mix before adding it to a collection.`);
+        }
+
+        this.#elementURIs.push(elementURI);
     }
 
     getElements(): Array<ContentElement> {
