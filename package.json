@@ -18,7 +18,9 @@
         "test": "mocha -r ts-node/register ./test/**/*.test.ts",
         "single-test": "npx mocha -r ts-node/register",
         "coverage": "nyc npm run test",
-        "prepublishOnly": "npm run build"
+        "prepublishOnly": "npm run build",
+        "postpublish": "npm version patch",
+        "preversion": "npm run build"
     },
     "repository": {
         "type": "git",
