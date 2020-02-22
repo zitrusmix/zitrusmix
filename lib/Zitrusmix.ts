@@ -1,10 +1,10 @@
 import {ZitrusmixOptions} from './ZitrusmixOptions';
 import {ContentElement} from './ContentElement';
 
-import {ContentElementPredicate} from './interfaces/ContentElementPredicate';
+import {ContentElementPredicate} from './types/ContentElementPredicate';
 import {ElementURI} from './types/ElementURI';
 import {Content} from './types/Content';
-import {ZitrusmixPlugin} from './interfaces/ZitrusmixPlugin';
+import {ZitrusmixPlugin} from './plugin/ZitrusmixPlugin';
 import {ZitrusmixCollection} from './ZitrusmixCollection';
 import {Link} from './Link';
 import {strictClone} from './utils/strictClone';

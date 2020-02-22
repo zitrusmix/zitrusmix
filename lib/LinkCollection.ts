@@ -1,6 +1,6 @@
 import {Link} from './Link';
 import {Zitrusmix} from './Zitrusmix';
-import {ZitrusmixPlugin} from './interfaces/ZitrusmixPlugin';
+import {ZitrusmixPlugin} from './plugin/ZitrusmixPlugin';
 import {ZitrusmixCollection} from './ZitrusmixCollection';
 import {ElementURI} from './types/ElementURI';
 

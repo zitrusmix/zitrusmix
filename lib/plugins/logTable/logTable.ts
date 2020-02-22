@@ -1,5 +1,5 @@
 import {LogTableOptions} from './LogTableOptions';
-import {ZitrusmixPlugin} from '../../interfaces/ZitrusmixPlugin';
+import {ZitrusmixPlugin} from '../../plugin/ZitrusmixPlugin';
 import {PluginContext} from '../../plugin/PluginContext';
 
 const RESET = '\x1b[0m';

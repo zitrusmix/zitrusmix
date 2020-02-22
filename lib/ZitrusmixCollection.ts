@@ -1,11 +1,11 @@
 import {Zitrusmix} from "./Zitrusmix";
-import {ZitrusmixPlugin} from "./interfaces/ZitrusmixPlugin";
+import {ZitrusmixPlugin} from "./plugin/ZitrusmixPlugin";
 import {ContentElement} from "./ContentElement";
 import {PluginContext} from "./plugin/PluginContext";
 import {CompareFunc} from "./types/CompareFunc";
 import {MaybeArray} from "./types/MaybeArray";
 import {ensureArray} from "./utils/ensureArray";
-import {ContentElementPredicate} from "./interfaces/ContentElementPredicate";
+import {ContentElementPredicate} from "./types/ContentElementPredicate";
 import {PluginLock} from "./guards/locks/PluginLock";
 import {ElementURI} from "./types/ElementURI";
 

@@ -1,7 +1,7 @@
 import {expect} from 'chai';
 import 'mocha';
 import {PluginContext, Zitrusmix} from '../../lib';
-import {ZitrusmixPlugin} from '../../lib/interfaces/ZitrusmixPlugin';
+import {ZitrusmixPlugin} from '../../lib/plugin/ZitrusmixPlugin';
 import {AssertionError} from 'assert';
 
 function assertIsPluginContext(obj: any): asserts obj is PluginContext {

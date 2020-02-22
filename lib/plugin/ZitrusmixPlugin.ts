@@ -1,4 +1,4 @@
-import {PluginContext} from '../plugin/PluginContext';
+import {PluginContext} from './PluginContext';
 import {ContentElement} from '../ContentElement';
 
 export declare type PluginOptions = object | any | null;
