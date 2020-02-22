@@ -13,12 +13,16 @@ import {ZitrusmixError} from "./guards/ZitrusmixError";
 const pluginLock = new PluginLock();
 
 export class ZitrusmixCollection implements Iterable<ContentElement> {
-    #elementURIs: Array<ElementURI>;
+    #elementURIs: Set<ElementURI>;
     readonly #mix: Zitrusmix;
 
     constructor(mix: Zitrusmix, elementURIs?: Array<ElementURI>) {
         this.#mix = mix;
-        this.#elementURIs = Array.from(elementURIs || []);
+        this.#elementURIs = new Set(elementURIs || []);
+    }
+
+    get size(): number {
+        return this.#elementURIs.size;
     }
 
     add(elementURI: ElementURI): void {
@@ -26,56 +30,20 @@ export class ZitrusmixCollection implements Iterable<ContentElement> {
              throw new ZitrusmixError('collection-add-element-missing-error', `No element with URI "${elementURI}" available. Add element to mix before adding it to a collection.`);
         }
 
-        this.#elementURIs.push(elementURI);
+        this.#elementURIs.add(elementURI);
     }
 
     clear(): void {
-        this.#elementURIs = [];
+        this.#elementURIs.clear();
     }
 
-    getElements(): Array<ContentElement> {
-        return this.#elementURIs.map(this.#mix.get);
+    delete(elementURI: ElementURI): void {
+        this.#elementURIs.delete(elementURI);
     }
 
-    use<TOptions>(plugin: ZitrusmixPlugin<TOptions>): Promise<void> | void {
-        pluginLock.lock();
-
-        let returnPromise;
-
-        if (plugin.process) {
-            const context = new PluginContext(this.#mix, this, plugin.options);
-            returnPromise = plugin.process(context);
-        }
-
-        if (plugin.forEach) {
-            for(const element of this.values()) {
-                plugin.forEach(element, plugin.options || {});
-            }
-        }
-
-        pluginLock.unlock(returnPromise);
-
-        return returnPromise || Promise.resolve();
-    }
-
-    forEach(elementCallbackFunc: (element: ContentElement) => void): void {
+    *entries(): IterableIterator<[ElementURI, ContentElement]> {
         for(const element of this.values()) {
-            elementCallbackFunc(element);
-        }
-    }
-
-    sort<T>(compare: CompareFunc<ContentElement>): ZitrusmixCollection {
-        const sortedElements = this.getElements().sort((a, b) => {
-            return compare(a, b)
-        });
-
-        return new ZitrusmixCollection(this.#mix, sortedElements.map(element => element.uri));
-    }
-
-    linkTo(elements: MaybeArray<ContentElement>, relationship: string, attributes?: Map<string, any>): void {
-        for(const element of this.values()) {
-            const targets = ensureArray(elements).map(element => element.uri);
-            this.#mix.addLink(element.uri, targets, relationship, attributes);
+            yield [element.uri, element];
         }
     }
 
@@ -108,8 +76,58 @@ export class ZitrusmixCollection implements Iterable<ContentElement> {
         return contentElement;
     }
 
-    keys(): Array<ElementURI> {
-        return Array.from(this.#elementURIs);
+    forEach(elementCallbackFunc: (value: ContentElement, key: ElementURI, collection: ZitrusmixCollection) => void): void {
+        for(const element of this.values()) {
+            elementCallbackFunc(element, element.uri, this);
+        }
+    }
+
+    has(elementURI: ElementURI): boolean {
+        return this.#elementURIs.has(elementURI);
+    }
+
+    linkTo(elements: MaybeArray<ContentElement>, relationship: string, attributes?: Map<string, any>): void {
+        for(const element of this.values()) {
+            const targets = ensureArray(elements).map(element => element.uri);
+            this.#mix.addLink(element.uri, targets, relationship, attributes);
+        }
+    }
+
+    use<TOptions>(plugin: ZitrusmixPlugin<TOptions>): Promise<void> | void {
+        pluginLock.lock();
+
+        let returnPromise;
+
+        if (plugin.process) {
+            const context = new PluginContext(this.#mix, this, plugin.options);
+            returnPromise = plugin.process(context);
+        }
+
+        if (plugin.forEach) {
+            for(const element of this.values()) {
+                plugin.forEach(element, plugin.options || {});
+            }
+        }
+
+        pluginLock.unlock(returnPromise);
+
+        return returnPromise || Promise.resolve();
+    }
+
+    sort<T>(compare: CompareFunc<ContentElement>): ZitrusmixCollection {
+        const sortedElements = Array.from(this.values()).sort((a, b) => {
+            return compare(a, b)
+        });
+
+        return new ZitrusmixCollection(this.#mix, sortedElements.map(element => element.uri));
+    }
+
+
+
+
+
+    keys(): IterableIterator<ElementURI> {
+        return this.#elementURIs.keys();
     }
 
     *values(): IterableIterator<ContentElement> {

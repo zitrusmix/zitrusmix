@@ -20,7 +20,7 @@ describe('ZitrusmixCollection', function () {
             collection.add('VIE');
 
             // Then
-            expect(collection.keys()).to.deep.equal(['VIE']);
+            expect([...collection.keys()]).to.deep.equal(['VIE']);
         });
 
         it('throws an error if element URI does not exist', () => {
@@ -48,7 +48,7 @@ describe('ZitrusmixCollection', function () {
             collection.clear();
 
             // Then
-            expect(collection.keys()).to.deep.equal([]);
+            expect([...collection.keys()]).to.deep.equal([]);
         });
     });
 
@@ -105,6 +105,26 @@ describe('ZitrusmixCollection', function () {
 
             // Then
             expect(allElements).to.deep.equal([city]);
+        });
+    });
+
+    describe('sort()', () => {
+        it('returns a sorted collection', () => {
+            // Given
+            const mix = new Zitrusmix();
+            mix.add('VIE', {name: 'Vienna'});
+            mix.add('BZO', {name: 'Bolzano'});
+
+            // When
+            const sortFn = (a: ContentElement, b: ContentElement): number => a.name.localeCompare(b.name);
+            const sortedCollection = mix.all().sort(sortFn);
+
+            // Then
+            const expectedValues = [
+                {name: 'Bolzano'},
+                {name: 'Vienna'}
+            ];
+            expect([...sortedCollection.values()]).to.deep.equal(expectedValues);
         });
     });
 });
