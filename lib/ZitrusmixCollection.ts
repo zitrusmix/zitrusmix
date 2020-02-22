@@ -24,20 +24,19 @@ export class ZitrusmixCollection implements Iterable<ContentElement> {
         return this.#elementURIs.map(this.#mix.get);
     }
 
-    use<TOptions>(plugin: ZitrusmixPlugin<TOptions>): Promise<any> | void {
+    use<TOptions>(plugin: ZitrusmixPlugin<TOptions>): Promise<void> | void {
         pluginLock.lock();
 
         let returnPromise;
 
-        if (plugin.call) {
+        if (plugin.execute) {
             const context = new PluginContext(this.#mix, this, plugin.options);
-            returnPromise = plugin.call(context);
+            returnPromise = plugin.execute(context);
         }
 
-        if (plugin.update) {
-            const updateFunc = plugin.update;
+        if (plugin.forEach) {
             for(const element of this.values()) {
-                updateFunc(element, plugin.options);
+                plugin.forEach(element, plugin.options || {});
             }
         }
 
