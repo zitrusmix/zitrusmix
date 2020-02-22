@@ -18,9 +18,10 @@
         "test": "mocha -r ts-node/register ./test/**/*.test.ts",
         "single-test": "npx mocha -r ts-node/register",
         "coverage": "nyc npm run test",
+        "preversion": "npm run build",
+        "postversion": "git push && git push --tags",
         "prepublishOnly": "npm run build",
-        "postpublish": "npm version patch",
-        "preversion": "npm run build"
+        "postpublish": "npm version prepatch --preid=SNAPSHOT && git push && git push --tags"
     },
     "repository": {
         "type": "git",
