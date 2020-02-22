@@ -21,12 +21,12 @@
         "preversion": "npm run build",
         "prepublishOnly": "npm run build",
         "postpublish": "npm run version:prepatch",
-        "release:major": "npm version major && npm publish",
-        "release:minor": "npm version minor && npm publish",
-        "release:patch": "npm version minor && npm publish",
-        "version:premajor": "npm version remajor && npm run commitVersionUpdate -m ",
-        "version:preminor": "npm version preminor --preid=SNAPSHOT -m \"Update version number to \\\"%s\\\"",
-        "version:prepatch": "npm version prepatch --preid=SNAPSHOT -m \"Update version number to \\\"%s\\\"",
+        "release:major": "npm version major && npm run commitVersionUpdate && npm publish",
+        "release:minor": "npm version minor && npm run commitVersionUpdate && npm publish",
+        "release:patch": "npm version minor && npm run commitVersionUpdate && npm publish",
+        "version:premajor": "npm version remajor && npm run commitVersionUpdate",
+        "version:preminor": "npm version preminor && npm run commitVersionUpdate",
+        "version:prepatch": "npm version prepatch && npm run commitVersionUpdate",
         "commitVersionUpdate": "git add package.json package-lock.json && git commit -m \"Update version number to \\\"%npm_package_version%\\\"\""
     },
     "repository": {
