@@ -37,6 +37,21 @@ describe('ZitrusmixCollection', function () {
         });
     });
 
+    describe('clear()', () => {
+        it('removes all URIs', () => {
+            // Given
+            const mix = new Zitrusmix();
+            mix.add('VIE', {name: 'Vienna'});
+            const collection = mix.all();
+
+            // When
+            collection.clear();
+
+            // Then
+            expect(collection.keys()).to.deep.equal([]);
+        });
+    });
+
     describe('use()', () => {
         it('throws an error when using a plugin before the previous plugin promise was resolved', () => {
             // Given

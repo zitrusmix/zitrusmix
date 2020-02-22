@@ -29,6 +29,10 @@ export class ZitrusmixCollection implements Iterable<ContentElement> {
         this.#elementURIs.push(elementURI);
     }
 
+    clear(): void {
+        this.#elementURIs = [];
+    }
+
     getElements(): Array<ContentElement> {
         return this.#elementURIs.map(this.#mix.get);
     }
