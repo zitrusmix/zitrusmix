@@ -1,6 +1,6 @@
 {
     "name": "zitrusmix",
-    "version": "0.11.1-SNAPSHOT.0",
+    "version": "0.12.1-SNAPSHOT.0",
     "description": "A (static) content generator and mixer",
     "main": "./dist/lib/index.js",
     "types": "./dist/lib/index.d.ts",
@@ -19,15 +19,15 @@
         "single-test": "npx mocha -r ts-node/register",
         "coverage": "nyc npm run test",
         "preversion": "npm run build",
-        "postversion": "git push && git push --tags",
         "prepublishOnly": "npm run build",
-        "postpublish": "npm version prepatch --preid=SNAPSHOT --no-git-tag-version",
+        "postpublish": "npm run version:prepatch",
         "release:major": "npm version major && npm publish",
         "release:minor": "npm version minor && npm publish",
         "release:patch": "npm version minor && npm publish",
-        "version:premajor": "npm version premajor --preid=SNAPSHOT --no-git-tag-version -m \"Update version number to \\\"%s\\\"",
-        "version:preminor": "npm version preminor --preid=SNAPSHOT --no-git-tag-version -m \"Update version number to \\\"%s\\\"",
-        "version:prepatch": "npm version prepatch --preid=SNAPSHOT --no-git-tag-version -m \"Update version number to \\\"%s\\\""
+        "version:premajor": "npm version remajor && npm run commitVersionUpdate -m ",
+        "version:preminor": "npm version preminor --preid=SNAPSHOT -m \"Update version number to \\\"%s\\\"",
+        "version:prepatch": "npm version prepatch --preid=SNAPSHOT -m \"Update version number to \\\"%s\\\"",
+        "commitVersionUpdate": "git add package.json package-lock.json && git commit -m \"Update version number to \\\"%npm_package_version%\\\"\""
     },
     "repository": {
         "type": "git",
