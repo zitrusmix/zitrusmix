@@ -3,8 +3,6 @@ import 'mocha';
 import {ContentElement, Zitrusmix} from '../../lib';
 import {ZitrusmixError} from "../../lib/guards/ZitrusmixError";
 import {callAndCatch} from "../utils/callAndCatch";
-import {ZitrusmixCollection} from "../../lib/ZitrusmixCollection";
-import {Content} from "../../lib/types/Content";
 
 const asnycPlugin = {
     call: (): Promise<any> => Promise.resolve()
