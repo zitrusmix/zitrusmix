@@ -11,7 +11,7 @@
         "README.md"
     ],
     "scripts": {
-        "build": "npm run compile && npm run lint",
+        "build": "npm run compile && npm run lint && npm run test",
         "compile": "tsc",
         "lint": "eslint . --ext .ts",
         "fix": "eslint . --ext .ts --fix",
