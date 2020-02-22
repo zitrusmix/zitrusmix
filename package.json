@@ -21,7 +21,10 @@
         "preversion": "npm run build",
         "postversion": "git push && git push --tags",
         "prepublishOnly": "npm run build",
-        "postpublish": "npm version prepatch --preid=SNAPSHOT && git push && git push --tags"
+        "postpublish": "npm version prepatch --preid=SNAPSHOT --no-git-tag-version",
+        "release:major": "npm version major && npm publish",
+        "release:minor": "npm version minor && npm publish",
+        "release:patch": "npm version minor && npm publish"
     },
     "repository": {
         "type": "git",
