@@ -5,7 +5,7 @@ import {ZitrusmixError} from "../../lib/guards/ZitrusmixError";
 import {callAndCatch} from "../utils/callAndCatch";
 
 const asnycPlugin = {
-    execute: (): Promise<any> => Promise.resolve()
+    process: (): Promise<any> => Promise.resolve()
 };
 
 describe('ZitrusmixCollection', function () {

@@ -29,9 +29,9 @@ export class ZitrusmixCollection implements Iterable<ContentElement> {
 
         let returnPromise;
 
-        if (plugin.execute) {
+        if (plugin.process) {
             const context = new PluginContext(this.#mix, this, plugin.options);
-            returnPromise = plugin.execute(context);
+            returnPromise = plugin.process(context);
         }
 
         if (plugin.forEach) {

@@ -12,7 +12,7 @@ export interface ForEachPluginFunc<TOptions extends PluginOptions> {
 }
 
 export interface ZitrusmixPlugin<TOptions extends PluginOptions = null> {
-    execute?: ExecutePluginFunc<TOptions>;
+    process?: ExecutePluginFunc<TOptions>;
     forEach?: ForEachPluginFunc<TOptions>;
     options?: TOptions;
 }

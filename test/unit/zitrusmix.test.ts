@@ -60,7 +60,7 @@ describe('Zitrusmix', function () {
             let pluginContext: any = null;
 
             const plugin: ZitrusmixPlugin = {
-                execute: (context: PluginContext): void => {
+                process: (context: PluginContext): void => {
                     pluginContext = context;
                     pluginContext.mix.get('test');
                 }

@@ -73,7 +73,7 @@ export function logTable(options?: LogTableOptions): ZitrusmixPlugin<LogTableOpt
 
     return {
         options: options || new LogTableOptions(),
-        execute: logTablePlugin
+        process: logTablePlugin
     };
 }
 
