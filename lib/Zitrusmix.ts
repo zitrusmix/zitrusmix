@@ -198,11 +198,11 @@ export class Zitrusmix {
         return this.elementMap.has(uri);
     }
 
-    keys(): Iterable<ElementURI>  {
+    keys(): IterableIterator<ElementURI>  {
         return this.elementMap.keys();
     }
 
-    values(): Iterable<ContentElement> {
+    values(): IterableIterator<ContentElement> {
         return this.elementMap.values();
     }
 
