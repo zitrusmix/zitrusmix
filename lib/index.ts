@@ -3,14 +3,19 @@
 import {Zitrusmix} from './Zitrusmix';
 import {ContentElement} from './ContentElement';
 import {PluginContext} from './plugin/PluginContext';
-
-import {logTable} from './plugins/logTable/logTable';
+import {ZitrusmixPlugin, ProcessPluginFunc, ForEachPluginFunc} from './plugin/ZitrusmixPlugin';
+import {ZitrusmixCollection} from './ZitrusmixCollection';
+import {Relationship} from './Relationship';
 
 export {
     Zitrusmix,
+    ZitrusmixCollection,
+    Relationship,
     ContentElement,
-
     PluginContext,
 
-    logTable
+    // Interfaces
+    ZitrusmixPlugin,
+    ForEachPluginFunc,
+    ProcessPluginFunc
 };
