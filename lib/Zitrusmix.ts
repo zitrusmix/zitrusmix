@@ -112,6 +112,13 @@ export class Zitrusmix {
         return element;
     }
 
+    patch(uri: ElementURI, patch: Partial<Content>): ContentElement {
+        const element = this.getElementById(uri);
+        assertElementExists(element, uri);
+
+        return element.patch(patch);
+    }
+
     forEach(callback: (element: ContentElement) => void): void {
         this.elementMap.forEach(callback);
     }
