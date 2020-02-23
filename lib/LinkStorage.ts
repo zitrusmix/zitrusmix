@@ -56,7 +56,7 @@ export class LinkStorage {
         linkCollection.forEach(link => {
             const sourceLinkCollection = this.sourceMap.get(link.source) || new LinkCollection(this.mix);
 
-            const updatedLink = new Link(link.source, link.targets.filter(target => target === uri), link.relationship, link.attributes);
+            const updatedLink = new Link(link.source, link.targets.filter(target => target === uri), link.relationship);
             sourceLinkCollection.delete(link);
             sourceLinkCollection.add(updatedLink);
         });

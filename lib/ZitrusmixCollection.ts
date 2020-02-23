@@ -9,6 +9,7 @@ import {ContentElementPredicate} from "./types/ContentElementPredicate";
 import {PluginLock} from "./guards/locks/PluginLock";
 import {ElementURI} from "./types/ElementURI";
 import {ZitrusmixError} from "./guards/ZitrusmixError";
+import {Relationship} from "./Relationship";
 
 const pluginLock = new PluginLock();
 
@@ -86,10 +87,10 @@ export class ZitrusmixCollection implements Iterable<ContentElement> {
         return this.#elementURIs.has(elementURI);
     }
 
-    linkTo(elements: MaybeArray<ContentElement>, relationship: string, attributes?: Map<string, any>): void {
+    linkTo(elements: MaybeArray<ContentElement>, relationship?: Relationship): void {
         for(const element of this.values()) {
             const targets = ensureArray(elements).map(element => element.uri);
-            this.#mix.addLink(element.uri, targets, relationship, attributes);
+            this.#mix.addLink(element.uri, targets, relationship);
         }
     }
 

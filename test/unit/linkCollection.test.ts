@@ -12,7 +12,7 @@ describe('LinkCollection', function () {
             const collection = new LinkCollection(mix);
 
             // When
-            const link = new Link('#1', ['#2'], 'test');
+            const link = new Link('#1', ['#2']);
             collection.add(link);
 
             // Then

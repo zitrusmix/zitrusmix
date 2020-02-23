@@ -13,6 +13,7 @@ import {ensureArray} from "./utils/ensureArray";
 import {LinkCollection} from "./LinkCollection";
 import {assertElementExists} from "./guards/assert/assertElementExists";
 import {LinkStorage} from "./LinkStorage";
+import {Relationship} from "./Relationship";
 
 export class Zitrusmix {
     private readonly options: ZitrusmixOptions;
@@ -56,9 +57,8 @@ export class Zitrusmix {
     addLink(
         source: ElementURI,
         targets: MaybeArray<ElementURI>,
-        relationship: string,
-        attributes?: Map<string, any>): void {
-        const link = new Link(source, ensureArray(targets), relationship, attributes);
+        relationship?: Relationship): void {
+        const link = new Link(source, ensureArray(targets), relationship);
         this.linkStorage.add(link);
     }
 

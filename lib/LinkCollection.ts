@@ -25,7 +25,7 @@ export class LinkCollection implements Iterable<Link>{
         this.links.clear();
     }
 
-    entries(): Iterable<[Link, Link]> {
+    entries(): IterableIterator<[Link, Link]> {
         return this.links.entries();
     }
 

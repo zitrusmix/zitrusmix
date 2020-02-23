@@ -10,6 +10,7 @@ import {assertStableElementURI} from './guards/assert/assertStableElementURI';
 import {Zitrusmix} from './Zitrusmix';
 import {ensureArray} from './utils/ensureArray';
 import {LinkCollection} from "./LinkCollection";
+import {Relationship} from "./Relationship";
 
 export class ContentElement {
     #uri: ElementURI;
@@ -52,14 +53,14 @@ export class ContentElement {
         return this;
     }
 
-    linkTo(targets: MaybeArray<ElementURI>, relationship: string): ContentElement {
+    linkTo(targets: MaybeArray<ElementURI>, relationship?: Relationship): ContentElement {
         const targetURIs = ensureArray(targets);
         this.#mix.addLink(this.uri, targetURIs, relationship);
 
         return this;
     }
 
-    linkToElements(targets: MaybeArray<ContentElement>, relationship: string): ContentElement {
+    linkToElements(targets: MaybeArray<ContentElement>, relationship?: Relationship): ContentElement {
         const targetElements = ensureArray(targets);
         this.#mix.addLink(this.uri, targetElements.map(element => element.uri), relationship);
 

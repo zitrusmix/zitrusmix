@@ -3,6 +3,7 @@ import 'mocha';
 import {ContentElement, Zitrusmix} from '../../lib';
 import {Link} from "../../lib/Link";
 import {ZitrusmixError} from "../../lib/guards/ZitrusmixError";
+import {Relationship} from "../../lib/Relationship";
 
 describe('ContentElement', function () {
     describe('constructor()', function () {
@@ -154,11 +155,12 @@ describe('ContentElement', function () {
             const bolzano = new ContentElement('BZO', {name: 'Bolzano'}, mix);
 
             // When
-            vienna.linkTo(bolzano.uri, 'train');
+            const connectedWithTrain = new Relationship('train');
+            vienna.linkTo(bolzano.uri, connectedWithTrain);
 
             // Then
-            const expectedLink = new Link(vienna.uri, [bolzano.uri], 'train');
-            expect(mix.getOutgoingLinks(vienna.uri).values().next().value).to.deep.equal(expectedLink);
+            const expectedLink = new Link(vienna.uri, [bolzano.uri], connectedWithTrain);
+            expect([...mix.getOutgoingLinks(vienna.uri)][0]).to.deep.equal(expectedLink);
         });
     });
 

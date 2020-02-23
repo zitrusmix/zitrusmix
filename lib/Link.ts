@@ -1,18 +1,17 @@
 'use strict';
 
 import {ElementURI} from './types/ElementURI';
+import {Relationship} from "./Relationship";
 
 export class Link {
     readonly source: ElementURI;
     readonly targets: Array<ElementURI>;
-    readonly attributes: Map<string, any>;
-    readonly relationship: string;
+    readonly relationship: Relationship;
 
-    constructor(source: ElementURI, targets: Array<ElementURI>, relationship: string, attributes?: Map<string, any>) {
+    constructor(source: ElementURI, targets: Array<ElementURI>, relationship?: Relationship) {
         this.source = source;
         this.targets = targets;
-        this.relationship = relationship;
-        this.attributes = attributes || new Map();
+        this.relationship = relationship || Relationship.Link;
     }
 
     [Symbol.toPrimitive](): string {
