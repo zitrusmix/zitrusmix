@@ -3,7 +3,7 @@ import {ContentElement} from '../ContentElement';
 
 export declare type PluginOptions = object | any | null;
 
-export interface ExecutePluginFunc<TOptions extends PluginOptions> {
+export interface ProcessPluginFunc<TOptions extends PluginOptions> {
     (context: PluginContext<TOptions>): Promise<any> | void;
 }
 
@@ -12,7 +12,7 @@ export interface ForEachPluginFunc<TOptions extends PluginOptions> {
 }
 
 export interface ZitrusmixPlugin<TOptions extends PluginOptions = null> {
-    process?: ExecutePluginFunc<TOptions>;
+    process?: ProcessPluginFunc<TOptions>;
     forEach?: ForEachPluginFunc<TOptions>;
     options?: TOptions;
 }
