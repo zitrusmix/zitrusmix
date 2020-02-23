@@ -23,7 +23,7 @@
         "postpublish": "npm run version:prepatch",
         "release:major": "npm version major && npm run commitVersionUpdate && npm publish",
         "release:minor": "npm version minor && npm run commitVersionUpdate && npm publish",
-        "release:patch": "npm version minor && npm run commitVersionUpdate && npm publish",
+        "release:patch": "npm version patch && npm run commitVersionUpdate && npm publish",
         "version:premajor": "npm version remajor && npm run commitVersionUpdate",
         "version:preminor": "npm version preminor && npm run commitVersionUpdate",
         "version:prepatch": "npm version prepatch && npm run commitVersionUpdate",
