@@ -1,9 +1,7 @@
 import {expect} from 'chai';
 import 'mocha';
-import {ContentElement, Zitrusmix} from '../../lib';
-import {Link} from "../../lib/Link";
-import {ZitrusmixError} from "../../lib/guards/ZitrusmixError";
-import {Relationship} from "../../lib/Relationship";
+import {ContentElement, Zitrusmix, Link, Relationship} from '../../lib';
+import {ZitrusmixError} from '../../lib/guards/ZitrusmixError';
 
 describe('ContentElement', function () {
     describe('constructor()', function () {
@@ -179,6 +177,34 @@ describe('ContentElement', function () {
                 name: 'Vienna'
             };
             expect(serializeable).to.deep.equal(expectedObject);
+        });
+    });
+
+    describe('clone()', function() {
+        it('returns a new instance', function() {
+            // Given
+            const mix = new Zitrusmix();
+            const element = new ContentElement('uri', {name: 'Vienna'}, mix);
+
+            // When
+            const clone = element.clone();
+
+            // Then
+            expect(clone).not.to.be.equal(element);
+            expect(clone.uri).to.be.equal('uri');
+        });
+
+        it('returns a new instance with a different URI', function() {
+            // Given
+            const mix = new Zitrusmix();
+            const element = new ContentElement('uri', {name: 'Vienna'}, mix);
+
+            // When
+            const clone = element.clone('new-uri');
+
+            // Then
+            expect(clone).not.to.be.equal(element);
+            expect(clone.uri).to.be.equal('new-uri');
         });
     });
 });

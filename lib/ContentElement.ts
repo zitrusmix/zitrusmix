@@ -82,8 +82,9 @@ export class ContentElement {
         };
     }
 
-    clone(): ContentElement {
-        return new ContentElement(this.uri, this, this.#mix);
+    clone(newUri?: ElementURI): ContentElement {
+        const {uri, ...content} = this;
+        return new ContentElement(newUri || uri, content, this.#mix);
     }
 
     private deleteAllContentProperties(): void {

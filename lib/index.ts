@@ -6,11 +6,13 @@ import {PluginContext} from './plugin/PluginContext';
 import {ZitrusmixPlugin, ProcessPluginFunc, ForEachPluginFunc} from './plugin/ZitrusmixPlugin';
 import {ZitrusmixCollection} from './ZitrusmixCollection';
 import {Relationship} from './Relationship';
+import {Link} from './Link';
 
 export {
     Zitrusmix,
     ZitrusmixCollection,
     Relationship,
+    Link,
     ContentElement,
     PluginContext,
 
