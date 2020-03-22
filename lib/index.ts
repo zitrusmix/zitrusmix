@@ -3,7 +3,7 @@
 import {Zitrusmix} from './Zitrusmix';
 import {ContentElement} from './ContentElement';
 import {PluginContext} from './plugin/PluginContext';
-import {ZitrusmixPlugin, ProcessPluginFunc, ForEachPluginFunc} from './plugin/ZitrusmixPlugin';
+import {ZitrusmixPlugin, ZitrusmixPluginProcessFunc, ZitrusmixPluginForEachFunc} from './plugin/ZitrusmixPlugin';
 import {ZitrusmixCollection} from './ZitrusmixCollection';
 import {Relationship} from './Relationship';
 import {Link} from './Link';
@@ -18,6 +18,6 @@ export {
 
     // Interfaces
     ZitrusmixPlugin,
-    ForEachPluginFunc,
-    ProcessPluginFunc
+    ZitrusmixPluginForEachFunc,
+    ZitrusmixPluginProcessFunc
 };

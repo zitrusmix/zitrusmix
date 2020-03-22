@@ -1,18 +1,18 @@
 import {PluginContext} from './PluginContext';
 import {ContentElement} from '../ContentElement';
 
-export declare type PluginOptions = object | any | null;
+export declare type ZitrusmixPluginOptions = object | any | null;
 
-export interface ProcessPluginFunc<TOptions extends PluginOptions> {
+export interface ZitrusmixPluginProcessFunc<TOptions extends ZitrusmixPluginOptions> {
     (context: PluginContext<TOptions>): Promise<any> | void;
 }
 
-export interface ForEachPluginFunc<TOptions extends PluginOptions> {
+export interface ZitrusmixPluginForEachFunc<TOptions extends ZitrusmixPluginOptions> {
     (element: ContentElement, options: TOptions | object): Promise<any> | void;
 }
 
-export interface ZitrusmixPlugin<TOptions extends PluginOptions = null> {
-    process?: ProcessPluginFunc<TOptions>;
-    forEach?: ForEachPluginFunc<TOptions>;
-    options?: TOptions;
+export interface ZitrusmixPlugin<TZitrusmixPluginOptions extends ZitrusmixPluginOptions = null> {
+    process?: ZitrusmixPluginProcessFunc<TZitrusmixPluginOptions>;
+    forEach?: ZitrusmixPluginForEachFunc<TZitrusmixPluginOptions>;
+    options?: TZitrusmixPluginOptions;
 }
