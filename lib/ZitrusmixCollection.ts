@@ -123,10 +123,6 @@ export class ZitrusmixCollection implements Iterable<ContentElement> {
         return new ZitrusmixCollection(this.#mix, sortedElements.map(element => element.uri));
     }
 
-
-
-
-
     keys(): IterableIterator<ElementURI> {
         return this.#elementURIs.keys();
     }
