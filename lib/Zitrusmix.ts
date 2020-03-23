@@ -8,7 +8,7 @@ import {ZitrusmixPlugin} from './plugin/ZitrusmixPlugin';
 import {ZitrusmixCollection} from './ZitrusmixCollection';
 import {Link} from './Link';
 import {strictClone} from './utils/strictClone';
-import {MaybeArray} from "./types/MaybeArray";
+import {OneOrMany} from "./types/OneOrMany";
 import {ensureArray} from "./utils/ensureArray";
 import {LinkCollection} from "./LinkCollection";
 import {assertElementExists} from "./guards/assert/assertElementExists";
@@ -24,9 +24,12 @@ export class Zitrusmix {
         this.options = Object.assign(new ZitrusmixOptions(), options || {});
         this.elementMap = new Map();
         this.linkStorage = new LinkStorage(this);
-
     }
 
+    /**
+     * Returns all elements.
+     * @returns {ZitrusmixCollection}
+     */
     all(): ZitrusmixCollection {
         return new ZitrusmixCollection(this, [...this.elementMap.keys()]);
     }
@@ -39,13 +42,19 @@ export class Zitrusmix {
         return new ZitrusmixCollection(this, []);
     }
 
-    use<T>(plugin: ZitrusmixPlugin<T>): Promise<void> | void {
+    /**
+     * Use a plugin for all elements of this mix.
+     * @param {ZitrusmixPlugin<TZitrusmixPluginOptions>} plugin
+     * @returns {Promise}
+     */
+    use<TZitrusmixPluginOptions>(plugin: ZitrusmixPlugin<TZitrusmixPluginOptions>): Promise<void> | void {
         return this.all().use(plugin);
     }
 
     /**
-     * @param uri
-     * @param content
+     * Add content to the mix.
+     * @param {ElementURI} uri The unique key for the content
+     * @param {Content} content Any serializable object.
      */
     add(uri: ElementURI, content?: Content): ContentElement {
         const element = new ContentElement(uri, strictClone(content || {}), this);
@@ -54,9 +63,15 @@ export class Zitrusmix {
         return element;
     }
 
+    /**
+     * Add a element link to the mix.
+     * @param {ElementURI} source
+     * @param {OneOrMany<ElementURI>} targets
+     * @param {Relationship} [relationship]
+     */
     addLink(
         source: ElementURI,
-        targets: MaybeArray<ElementURI>,
+        targets: OneOrMany<ElementURI>,
         relationship?: Relationship): void {
         const link = new Link(source, ensureArray(targets), relationship);
         this.linkStorage.add(link);

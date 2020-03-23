@@ -3,7 +3,7 @@ import {ZitrusmixPlugin} from "./plugin/ZitrusmixPlugin";
 import {ContentElement} from "./ContentElement";
 import {PluginContext} from "./plugin/PluginContext";
 import {CompareFunc} from "./types/CompareFunc";
-import {MaybeArray} from "./types/MaybeArray";
+import {OneOrMany} from "./types/OneOrMany";
 import {ensureArray} from "./utils/ensureArray";
 import {ContentElementPredicate} from "./types/ContentElementPredicate";
 import {PluginLock} from "./guards/locks/PluginLock";
@@ -87,7 +87,7 @@ export class ZitrusmixCollection implements Iterable<ContentElement> {
         return this.#elementURIs.has(elementURI);
     }
 
-    linkTo(elements: MaybeArray<ContentElement>, relationship?: Relationship): void {
+    linkTo(elements: OneOrMany<ContentElement>, relationship?: Relationship): void {
         for(const element of this.values()) {
             const targets = ensureArray(elements).map(element => element.uri);
             this.#mix.addLink(element.uri, targets, relationship);

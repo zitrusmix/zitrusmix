@@ -4,7 +4,7 @@ import {strictClone} from './utils/strictClone';
 import {ElementURI} from './types/ElementURI';
 import {Content} from './types/Content';
 import {deepFreeze} from './utils/deepFreeze';
-import {MaybeArray} from './types/MaybeArray';
+import {OneOrMany} from './types/OneOrMany';
 import {assertElementURI} from './guards/assert/assertElementURI';
 import {assertStableElementURI} from './guards/assert/assertStableElementURI';
 import {Zitrusmix} from './Zitrusmix';
@@ -53,14 +53,14 @@ export class ContentElement {
         return this;
     }
 
-    linkTo(targets: MaybeArray<ElementURI>, relationship?: Relationship): ContentElement {
+    linkTo(targets: OneOrMany<ElementURI>, relationship?: Relationship): ContentElement {
         const targetURIs = ensureArray(targets);
         this.#mix.addLink(this.uri, targetURIs, relationship);
 
         return this;
     }
 
-    linkToElements(targets: MaybeArray<ContentElement>, relationship?: Relationship): ContentElement {
+    linkToElements(targets: OneOrMany<ContentElement>, relationship?: Relationship): ContentElement {
         const targetElements = ensureArray(targets);
         this.#mix.addLink(this.uri, targetElements.map(element => element.uri), relationship);
 
