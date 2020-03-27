@@ -35,9 +35,9 @@ mix.add('/city/italia/bzo', {name: 'Bolzano'});
 mix.forEach(element => console.log(element.uri, element.name));
 ```
 
-### API
+## API
 
-## Overview
+### Overview
 
 Class                                                           | Description
 ---                                                             | ---
