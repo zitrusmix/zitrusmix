@@ -14,6 +14,7 @@ Zitrusmix is a modern TypeScript/ES6 library to create your own content processi
 
 - [Installation](#installation)
 - [Getting started](#getting-started)
+- [API](#api)
 
 ### Installation
 ![node](https://img.shields.io/node/v/zitrusmix?style=flat-square)
@@ -34,3 +35,12 @@ mix.add('/city/italia/bzo', {name: 'Bolzano'});
 mix.forEach(element => console.log(element.uri, element.name));
 ```
 
+### API
+
+## Overview
+
+Class                                                           | Description
+---                                                             | ---
+[Zitrusmix](/blob/master/lib/Zitrusmix.ts)                      | The main entry point.
+[ContentElement](/blob/master/lib/ContentElement.ts)            | An element of a Zitrusmix instance.
+[ZitrusmixCollection](/blob/master/lib/ZitrusmixCollection.ts)  | An element subset of a Zitrusmix instance.
