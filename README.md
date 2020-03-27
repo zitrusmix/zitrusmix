@@ -41,6 +41,6 @@ mix.forEach(element => console.log(element.uri, element.name));
 
 Class                                                           | Description
 ---                                                             | ---
-[Zitrusmix](/blob/master/lib/Zitrusmix.ts)                      | The main entry point.
-[ContentElement](/blob/master/lib/ContentElement.ts)            | An element of a Zitrusmix instance.
-[ZitrusmixCollection](/blob/master/lib/ZitrusmixCollection.ts)  | An element subset of a Zitrusmix instance.
+[Zitrusmix](/lib/Zitrusmix.ts)                      | The main entry point.
+[ContentElement](/lib/ContentElement.ts)            | An element of a Zitrusmix instance.
+[ZitrusmixCollection](/lib/ZitrusmixCollection.ts)  | An element subset of a Zitrusmix instance.
