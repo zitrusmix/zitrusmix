@@ -4,7 +4,7 @@
 ![GitHub tag (latest SemVer)](https://img.shields.io/github/v/tag/zitrusmix/zitrusmix?label=Version&style=flat-square)
 ![npm](https://img.shields.io/npm/v/zitrusmix?style=flat-square)
 ![npm type definitions](https://img.shields.io/npm/types/zitrusmix?style=flat-square)
-![NPM](https://img.shields.io/npm/l/zitrusmix?style=flat-square)
+![BSD-3-Clause](./doc/badges/license.svg)
 
 Zitrusmix is a modern TypeScript/ES6 library to create your own content processing application.
 
