@@ -1,36 +1,46 @@
 # :lemon: zitrusmix
 
-![status](https://img.shields.io/static/v1?label=STATUS&message=EXPERIMENTAL&color=red&style=flat-square)
-![GitHub tag (latest SemVer)](https://img.shields.io/github/v/tag/zitrusmix/zitrusmix?label=Version&style=flat-square)
+![TypeScript](./doc/badges/typescript.svg)
+![Experimental](./doc/badges/status-experimental.svg)
 ![npm](https://img.shields.io/npm/v/zitrusmix?style=flat-square)
-![npm type definitions](https://img.shields.io/npm/types/zitrusmix?style=flat-square)
 ![BSD-3-Clause](./doc/badges/license.svg)
 
-Zitrusmix is a modern TypeScript/ES6 library to create your own content processing application.
+Zitrusmix is a flexible data structure to work with connected content.
 
-:boom: __EXPERIMENTAL__ More work is required to release a alpha, beta and release candidate version.
+- Based on APIs you already know, like: Map, Set, Iterable
+- Zero dependencies and small footprint
+- Plugin support
+- Shallow immutable elements
+- Reactive events
+- Debug friendly with polite error messages
+
+> :boom: __EARLY ACCESS__
+> Currently this library is in an alpha state. APIs and features may change.
+> Please provide feedback or problem descriptions via GitHub issues, thanks a lot. 🤝
 
 ## Table of Contents
 
-- [Installation](#installation)
 - [Getting started](#getting-started)
 - [API](#api)
 
-### Installation
-![node](https://img.shields.io/node/v/zitrusmix?style=flat-square)
-![status](https://img.shields.io/static/v1?label=TypeScript&message=>=3.8.1&color=success&style=flat-square)
+## Getting started
+
+### 🚀 What can we do with this library?
+
+### 🛠 Installation
+![node](./doc/badges/node-min-version.svg)
 ```
 npm install zitrusmix
 ```
 
-### Getting started
+### 🧪 Simple example
 
 ```typescript
 import {Zitrusmix} from 'zitrusmix';
 
 const mix = new Zitrusmix();
-mix.add('/city/austria/vie', {name: 'Vienna'});
-mix.add('/city/italia/bzo', {name: 'Bolzano'});
+mix.add('/city/vie', {name: 'Vienna'});
+mix.add('/city/bzo', {name: 'Bolzano'});
 
 mix.forEach(element => console.log(element.uri, element.name));
 ```
@@ -38,6 +48,8 @@ mix.forEach(element => console.log(element.uri, element.name));
 ## API
 
 ### Overview
+
+![Overview](./doc/images/zitrusmix-overview.svg)
 
 Class                                                           | Description
 ---                                                             | ---
