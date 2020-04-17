@@ -27,31 +27,6 @@ export class Zitrusmix {
     }
 
     /**
-     * Returns all elements.
-     * @returns {ZitrusmixCollection}
-     */
-    all(): ZitrusmixCollection {
-        return new ZitrusmixCollection(this, [...this.elementMap.keys()]);
-    }
-
-    /**
-     * Creates an empty collection.
-     * @returns {ZitrusmixCollection}
-     */
-    createCollection(): ZitrusmixCollection {
-        return new ZitrusmixCollection(this, []);
-    }
-
-    /**
-     * Use a plugin for all elements of this mix.
-     * @param {ZitrusmixPlugin<TZitrusmixPluginOptions>} plugin
-     * @returns {Promise}
-     */
-    use<TZitrusmixPluginOptions>(plugin: ZitrusmixPlugin<TZitrusmixPluginOptions>): Promise<void> | void {
-        return this.all().use(plugin);
-    }
-
-    /**
      * Add content to the mix.
      * @param {ElementURI} uri The unique key for the content
      * @param {Content} content Any serializable object.
@@ -77,8 +52,42 @@ export class Zitrusmix {
         this.linkStorage.add(link);
     }
 
-    getElementById(uri: ElementURI): ContentElement | undefined {
-        return this.elementMap.get(uri);
+    /**
+     * Returns all elements.
+     * @returns {ZitrusmixCollection}
+     */
+    all(): ZitrusmixCollection {
+        return new ZitrusmixCollection(this, [...this.elementMap.keys()]);
+    }
+
+    clear(): void {
+        this.elementMap.clear();
+        this.linkStorage.clear();
+    }
+
+    /**
+     * Creates an empty collection.
+     * @returns {ZitrusmixCollection}
+     */
+    createCollection(): ZitrusmixCollection {
+        return new ZitrusmixCollection(this, []);
+    }
+
+    delete(uri: ElementURI): void {
+        this.elementMap.delete(uri);
+        this.linkStorage.removeElement(uri);
+    }
+
+    filter(predicate: ContentElementPredicate): ZitrusmixCollection {
+        return this.all().filter(predicate);
+    }
+
+    find(predicate: ContentElementPredicate): ContentElement | undefined {
+        return this.all().find(predicate);
+    }
+
+    forEach(callback: (element: ContentElement) => void): void {
+        this.elementMap.forEach(callback);
     }
 
     get(uri: ElementURI): ContentElement {
@@ -88,24 +97,47 @@ export class Zitrusmix {
         return element;
     }
 
-    getLinks(): LinkCollection {
-        return this.linkStorage.values()
-    }
-
-    getOutgoingLinks(uri: ElementURI): LinkCollection {
-        return this.linkStorage.getOutgoingLinks(uri);
+    getElementById(uri: ElementURI): ContentElement | undefined {
+        return this.elementMap.get(uri);
     }
 
     getIncomingLinks(uri: ElementURI): LinkCollection {
         return this.linkStorage.getIncomingLinks(uri);
     }
 
-    filter(predicate: ContentElementPredicate): ZitrusmixCollection {
-        return this.all().filter(predicate);
+    getOutgoingLinks(uri: ElementURI): LinkCollection {
+        return this.linkStorage.getOutgoingLinks(uri);
     }
 
-    find(predicate: ContentElementPredicate): ContentElement | undefined {
-        return this.all().find(predicate);
+    getLinks(): LinkCollection {
+        return this.linkStorage.values()
+    }
+
+    has(uri: ElementURI): boolean {
+        return this.elementMap.has(uri);
+    }
+
+    keys(): IterableIterator<ElementURI>  {
+        return this.elementMap.keys();
+    }
+
+    map<T>(mapFunc: (element: ContentElement, uri: ElementURI) => T): Array<T> {
+        return Array.from(this.elementMap, ([key, value]) => mapFunc(value, key));
+    }
+
+    patch(uri: ElementURI, patch: Partial<Content>): ContentElement {
+        const element = this.getElementById(uri);
+        assertElementExists(element, uri);
+
+        return element.patch(patch);
+    }
+
+    toJSON(): object {
+        return {
+            options: this.options,
+            elements: Array.from(this.elementMap.values(), element => element.toJSON()),
+            links: this.linkStorage.toJSON()
+        };
     }
 
     update(uri: ElementURI, content: Content): ContentElement {
@@ -127,113 +159,24 @@ export class Zitrusmix {
         return element;
     }
 
-    patch(uri: ElementURI, patch: Partial<Content>): ContentElement {
-        const element = this.getElementById(uri);
-        assertElementExists(element, uri);
-
-        return element.patch(patch);
-    }
-
-    forEach(callback: (element: ContentElement) => void): void {
-        this.elementMap.forEach(callback);
-    }
-
-    map<T>(mapFunc: (element: ContentElement, uri: ElementURI) => T): Array<T> {
-        return Array.from(this.elementMap, ([key, value]) => mapFunc(value, key));
-    }
-
-    clear(): void {
-        this.elementMap.clear();
-        this.linkStorage.clear();
-    }
-
-    delete(uri: ElementURI): void {
-        this.elementMap.delete(uri);
-        this.linkStorage.removeElement(uri);
-    }
-
-    // /**
-    //  * @param {({match: (expression:string) => boolean}) | string | ((expression:string) => boolean)} expression
-    //  */
-    // match(expression) {
-    //     /**
-    //      * @type {{match: (expression:string) => boolean}}
-    //      */
-    //     let matcher = {match: () => true};
-    //
-    //     if (typeof expression === 'string') {
-    //         const createMatcher = this.options.createMatcher;
-    //
-    //         if (createMatcher) {
-    //             matcher = createMatcher(expression);
-    //         } else {
-    //             // TODO
-    //             // throw error
-    //         }
-    //     } else if (typeof expression === 'function') {
-    //        matcher = {match: expression};
-    //     } else {
-    //         matcher = expression;
-    //     }
-    //
-    //     const options = new ZitrusmixOptions({
-    //         contentPool: this.contentPool,
-    //         createMatcher: this.options.createMatcher
-    //     });
-    //
-    //     return new Zitrusmix(options);
-    // }
-
-    // /**
-    //  * @param {function(ContentElement):string} callback
-    //  * @returns {Map<string, !Array<ContentElement>>}
-    //  */
-    // groupBy(callback) {
-    //     /**
-    //      * @type {Map<string, !Array<ContentElement>>}
-    //      */
-    //     const groups = new Map();
-    //
-    //     this.contentPool.elements.forEach(element => {
-    //         const groupId = callback(element);
-    //         const group = groups.get(groupId);
-    //
-    //         if (group) {
-    //             group.push(element);
-    //         } else {
-    //             groups.set(groupId, [element]);
-    //         }
-    //     });
-    //
-    //     return groups;
-    // }
-
-
-    has(uri: ElementURI): boolean {
-        return this.elementMap.has(uri);
-    }
-
-    keys(): IterableIterator<ElementURI>  {
-        return this.elementMap.keys();
+    /**
+     * Use a plugin for all elements of this mix.
+     * @param {ZitrusmixPlugin<TZitrusmixPluginOptions>} plugin
+     * @returns {Promise}
+     */
+    use<TZitrusmixPluginOptions>(plugin: ZitrusmixPlugin<TZitrusmixPluginOptions>): Promise<void> | void {
+        return this.all().use(plugin);
     }
 
     values(): IterableIterator<ContentElement> {
         return this.elementMap.values();
     }
 
-    private setElement(contentElement: ContentElement): void {
-        this.elementMap.set(contentElement.uri, contentElement);
-    }
-
     [Symbol.iterator](): Map<ElementURI, ContentElement> {
         return this.elementMap;
     }
 
-    toJSON(): object {
-        return {
-            options: this.options,
-            elements: Array.from(this.elementMap.values(), element => element.toJSON()),
-            links: this.linkStorage.toJSON()
-        };
+    private setElement(contentElement: ContentElement): void {
+        this.elementMap.set(contentElement.uri, contentElement);
     }
 }
