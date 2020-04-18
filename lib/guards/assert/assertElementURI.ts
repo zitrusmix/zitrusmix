@@ -1,10 +1,11 @@
-import {ElementURI} from "../../types/ElementURI";
-import {URL} from "url";
+import {ElementURI} from '../../types/ElementURI';
+import {URL} from 'url';
+import {ZitrusmixError} from "../ZitrusmixError";
 
 export function assertElementURI(uri: ElementURI): asserts uri is ElementURI {
     try {
         new URL('http:' + uri);
     } catch (error) {
-        throw new Error(`Element requires a valid URI. URI shall not contain any schema like "http:".`);
+        throw new ZitrusmixError('assert-element-exists', `Expected "ContentElement" does not exist at "${uri}".`);
     }
 }

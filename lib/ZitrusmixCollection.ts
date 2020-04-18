@@ -1,21 +1,20 @@
-import {Zitrusmix} from "./Zitrusmix";
-import {ZitrusmixPlugin} from "./plugin/ZitrusmixPlugin";
-import {ContentElement} from "./ContentElement";
-import {PluginContext} from "./plugin/PluginContext";
-import {CompareFunc} from "./types/CompareFunc";
-import {OneOrMany} from "./types/OneOrMany";
-import {ensureArray} from "./utils/ensureArray";
-import {ContentElementPredicate} from "./types/ContentElementPredicate";
-import {PluginLock} from "./guards/locks/PluginLock";
-import {ElementURI} from "./types/ElementURI";
-import {ZitrusmixError} from "./guards/ZitrusmixError";
-import {Relationship} from "./Relationship";
-import {Link} from "./Link";
+import {Zitrusmix} from './Zitrusmix';
+import {ZitrusmixPlugin} from './plugin/ZitrusmixPlugin';
+import {ContentElement} from './ContentElement';
+import {PluginContext} from './plugin/PluginContext';
+import {CompareFunc} from './types/CompareFunc';
+import {OneOrMany} from './types/OneOrMany';
+import {ensureArray} from './utils/ensureArray';
+import {ContentElementPredicate} from './types/ContentElementPredicate';
+import {PluginLock} from './guards/locks/PluginLock';
+import {ElementURI} from './types/ElementURI';
+import {Relationship} from './Relationship';
+import {Link} from './Link';
 
 const pluginLock = new PluginLock();
 
 export class ZitrusmixCollection implements Iterable<ContentElement> {
-    #elementURIs: Set<ElementURI>;
+    readonly #elementURIs: Set<ElementURI>;
     readonly #mix: Zitrusmix;
 
     constructor(mix: Zitrusmix, elementURIs?: Array<ElementURI>) {
@@ -28,11 +27,9 @@ export class ZitrusmixCollection implements Iterable<ContentElement> {
     }
 
     add(elementURI: ElementURI): void {
-        if (!this.#mix.has(elementURI)) {
-             throw new ZitrusmixError('collection-add-element-missing-error', `No element with URI "${elementURI}" available. Add element to mix before adding it to a collection.`);
-        }
+        const element = this.#mix.get(elementURI);
 
-        this.#elementURIs.add(elementURI);
+        this.#elementURIs.add(element.uri);
     }
 
     clear(): void {

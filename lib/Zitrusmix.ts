@@ -7,7 +7,6 @@ import {Content} from './types/Content';
 import {ZitrusmixPlugin} from './plugin/ZitrusmixPlugin';
 import {ZitrusmixCollection} from './ZitrusmixCollection';
 import {strictClone} from './utils/strictClone';
-import {LinkCollection} from './LinkCollection';
 import {assertElementExists} from './guards/assert/assertElementExists';
 import {LinkStore} from './LinkStore';
 

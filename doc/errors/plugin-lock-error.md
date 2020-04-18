@@ -11,7 +11,7 @@ mix.use(firstAsyncPlugin);
 mix.use(secondAsyncPlugin); // throws Error
 ```
 
-:bulb: Examples to maybe fix your code
+:lemon: Examples to maybe fix your code
 
 ```js
 const mix = new Zitrusmix();

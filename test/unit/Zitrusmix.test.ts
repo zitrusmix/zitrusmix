@@ -62,7 +62,7 @@ describe('Zitrusmix', function () {
             const plugin: ZitrusmixPlugin = {
                 process: (context: PluginContext): void => {
                     pluginContext = context;
-                    pluginContext.mix.get('test');
+                    pluginContext.mix.get('test/123');
                 }
             };
             await mix.use(plugin);

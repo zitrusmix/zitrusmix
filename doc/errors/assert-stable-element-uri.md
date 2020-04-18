@@ -1,6 +1,6 @@
-# stable-element-uri-error
+# assert-stable-element-uri
 
-The UID of a content element can not be changed after construction. The UID is immuteable.
+The UID of a content element cannot be changed after construction. The UID is immutable.
 
 :boom: Examples that throw this error:
 

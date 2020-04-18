@@ -10,7 +10,7 @@ describe('ContentElement', function () {
             const mix = new Zitrusmix();
 
             // When
-            const element = new ContentElement('VIE', {name: 'Vienna'}, mix);
+            const element = new ContentElement('/city/vie', {name: 'Vienna'}, mix);
 
             // Then
             expect(element.name).to.equal('Vienna');
@@ -22,10 +22,10 @@ describe('ContentElement', function () {
 
             try {
                 // When
-                new ContentElement('VIE', {uri: 'BZO'}, mix);
+                new ContentElement('/city/vie', {uri: '/city/bzo'}, mix);
             } catch(error) {
                 // Then
-                const expectedError = new ZitrusmixError('stable-element-uri-error', 'The URI of a <ContentElement> can not be changed.');
+                const expectedError = new ZitrusmixError('assert-stable-element-uri', 'The URI of a <ContentElement> can not be changed.');
                 expect(error.message).to.deep.equal(expectedError.message);
             }
         });
@@ -35,9 +35,10 @@ describe('ContentElement', function () {
         it('patches the content element', function() {
             // Given
             const mix = new Zitrusmix();
-            const element = new ContentElement('VIE', {name: 'Vienna'}, mix);
+            mix.add('/city/vie', {name: 'Vienna'});
 
             // When
+            const element = mix.get('/city/vie');
             element.patch({country: 'Austria'});
 
             // Then
@@ -45,15 +46,16 @@ describe('ContentElement', function () {
                 name: 'Vienna',
                 country: 'Austria'
             };
-            expect(mix.get('VIE')).to.deep.equal(expectedElement);
+            expect(mix.get('/city/vie')).to.deep.equal(expectedElement);
         });
 
         it('patches the current element instance', function() {
             // Given
             const mix = new Zitrusmix();
-            const element = new ContentElement('VIE', {name: 'Vienna'}, mix);
+            mix.add('/city/vie', {name: 'Vienna'});
 
             // When
+            const element = mix.get('/city/vie');
             element.patch({country: 'Austria'});
 
             // Then
@@ -67,9 +69,10 @@ describe('ContentElement', function () {
         it('returns the patched content element', function() {
             // Given
             const mix = new Zitrusmix();
-            const element = new ContentElement('VIE', {name: 'Vienna'}, mix);
+            mix.add('/city/vie', {name: 'Vienna'});
 
             // When
+            const element = mix.get('/city/vie');
             const patchedElement = element.patch({country: 'Austria'});
 
             // Then
@@ -83,9 +86,10 @@ describe('ContentElement', function () {
         it('uses a shallow patch strategy', function() {
             // Given
             const mix = new Zitrusmix();
-            const element = new ContentElement('VIE', {name: {en: 'Vienna'}}, mix);
+            mix.add('/city/vie', {name: 'Vienna'});
 
             // When
+            const element = mix.get('/city/vie');
             element.patch({name: {de: 'Wien'}});
 
             // Then
@@ -102,24 +106,26 @@ describe('ContentElement', function () {
         it('updates the content element', function() {
             // Given
             const mix = new Zitrusmix();
-            const element = new ContentElement('VIE', {name: 'Vienna'}, mix);
+            mix.add('/city/vie', {name: 'Vienna'});
 
             // When
+            const element = mix.get('/city/vie');
             element.update({country: 'Austria'});
 
             // Then
             const expectedElement = {
                 country: 'Austria'
             };
-            expect(mix.get('VIE')).to.deep.equal(expectedElement);
+            expect(mix.get('/city/vie')).to.deep.equal(expectedElement);
         });
 
         it('updates the current element instance', function() {
             // Given
             const mix = new Zitrusmix();
-            const element = new ContentElement('VIE', {name: 'Vienna'}, mix);
+            mix.add('/city/vie', {name: 'Vienna'});
 
             // When
+            const element = mix.get('/city/vie');
             element.update({country: 'Austria'});
 
             // Then
@@ -132,9 +138,10 @@ describe('ContentElement', function () {
         it('returns the updated content element', function() {
             // Given
             const mix = new Zitrusmix();
-            const element = new ContentElement('VIE', {name: 'Vienna'}, mix);
+            mix.add('/city/vie', {name: 'Vienna'});
 
             // When
+            const element = mix.get('/city/vie');
             const updatedElement = element.update({country: 'Austria'});
 
             // Then
@@ -149,8 +156,8 @@ describe('ContentElement', function () {
         it('creates a link to another element', function() {
             // Given
             const mix = new Zitrusmix();
-            const vienna = new ContentElement('VIE', {name: 'Vienna'}, mix);
-            const bolzano = new ContentElement('BZO', {name: 'Bolzano'}, mix);
+            const vienna = new ContentElement('/city/vie', {name: 'Vienna'}, mix);
+            const bolzano = new ContentElement('/city/bzo', {name: 'Bolzano'}, mix);
 
             // When
             const connectedWithTrain = new Relationship('train');

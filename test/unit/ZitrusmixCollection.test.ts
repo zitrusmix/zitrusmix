@@ -29,10 +29,10 @@ describe('ZitrusmixCollection', function () {
             const collection = mix.all();
 
             // When
-            const error = callAndCatch(() => collection.add('VIE'));
+            const error = callAndCatch(() => collection.add('/city/vie'));
 
             // Then
-            const expectedError = new ZitrusmixError('collection-add-element-missing-error', `No element with URI "VIE" available. Add element to mix before adding it to a collection.`);
+            const expectedError = new ZitrusmixError('assert-element-exists', `Expected "ContentElement" does not exist at "/city/vie".`);
             expect(error && error.message).to.deep.equal(expectedError.message);
         });
     });
