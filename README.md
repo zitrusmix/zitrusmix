@@ -18,11 +18,6 @@ Zitrusmix is a flexible data structure to work with connected content.
 > Currently this library is in an alpha state. APIs and features may change.
 > Please provide feedback or problem descriptions via GitHub issues, thanks a lot. 🤝
 
-## Table of Contents
-
-- [Getting started](#getting-started)
-- [API](#api)
-
 ## Getting started
 
 ### 🚀 What can we do with this library?
@@ -45,14 +40,8 @@ mix.add('/city/bzo', {name: 'Bolzano'});
 mix.forEach(element => console.log(element.uri, element.name));
 ```
 
-## API
-
-### Overview
+## ⚡ API
 
 ![Overview](./doc/images/zitrusmix-overview.svg)
 
-Class                                                           | Description
----                                                             | ---
-[Zitrusmix](/lib/Zitrusmix.ts)                      | The main entry point.
-[ContentElement](/lib/ContentElement.ts)            | An element of a Zitrusmix instance.
-[ZitrusmixCollection](/lib/ZitrusmixCollection.ts)  | An element subset of a Zitrusmix instance.
+The [API documentation](./doc/api/README.md) provides a general introduction and all the detail information.
