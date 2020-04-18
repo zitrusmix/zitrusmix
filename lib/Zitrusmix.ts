@@ -87,18 +87,6 @@ export class Zitrusmix {
         return this.elements.get(uri);
     }
 
-    getIncomingLinks(uri: ElementURI): LinkCollection {
-        return this.linkStore.getIncomingLinks(uri);
-    }
-
-    getOutgoingLinks(uri: ElementURI): LinkCollection {
-        return this.linkStore.getOutgoingLinks(uri);
-    }
-
-    getLinks(): LinkCollection {
-        return this.linkStore.values()
-    }
-
     has(uri: ElementURI): boolean {
         return this.elements.has(uri);
     }

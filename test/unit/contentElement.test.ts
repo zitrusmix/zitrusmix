@@ -158,7 +158,7 @@ describe('ContentElement', function () {
 
             // Then
             const expectedLink = new Link(vienna.uri, [bolzano.uri], connectedWithTrain);
-            expect([...mix.getOutgoingLinks(vienna.uri)][0]).to.deep.equal(expectedLink);
+            expect([...mix.links.getOutgoingLinks(vienna.uri)][0]).to.deep.equal(expectedLink);
         });
     });
 

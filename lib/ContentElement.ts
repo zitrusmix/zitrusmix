@@ -73,11 +73,11 @@ export class ContentElement {
     }
 
     getOutgoingLinks(): LinkCollection {
-        return this.#mix.getOutgoingLinks(this.uri);
+        return this.#mix.links.getOutgoingLinks(this.uri);
     }
 
     getIncomingLinks(): LinkCollection  {
-        return this.#mix.getIncomingLinks(this.uri);
+        return this.#mix.links.getIncomingLinks(this.uri);
     }
 
     toJSON(): object {
