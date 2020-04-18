@@ -12,8 +12,7 @@
 
 The main entry point for this library.
 
-* [API Documentation](./zitrusmix.md)
-* [Source Code](../../lib/Zitrusmix.ts)
+__[API Documentation](./zitrusmix.md) | [Source Code](../../lib/Zitrusmix.ts)__
 
 ### ContentElement
 
@@ -23,7 +22,6 @@ This is our content element with custom properties.
 > * A ```ContentElement``` has to be serializable
 > * A ```ContentELement``` shall not use methods
 
-* [API Documentation](./content-element.md)
-* [Source Code](../../lib/ContentElement.ts)
+__[API Documentation](./content-element.md) | [Source Code](../../lib/ContentElement.ts)__
 
 ### ZitrusmixCollection
