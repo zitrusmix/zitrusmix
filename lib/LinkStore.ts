@@ -3,7 +3,7 @@ import {Link} from "./Link";
 import {LinkCollection} from "./LinkCollection";
 import {Zitrusmix} from "./Zitrusmix";
 
-export class LinkStorage {
+export class LinkStore {
     private readonly sourceMap: Map<ElementURI, LinkCollection>;
     private readonly targetMap: Map<ElementURI, LinkCollection>;
     private readonly mix: Zitrusmix;

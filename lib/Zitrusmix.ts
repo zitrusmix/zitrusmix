@@ -12,18 +12,18 @@ import {OneOrMany} from "./types/OneOrMany";
 import {ensureArray} from "./utils/ensureArray";
 import {LinkCollection} from "./LinkCollection";
 import {assertElementExists} from "./guards/assert/assertElementExists";
-import {LinkStorage} from "./LinkStorage";
+import {LinkStore} from "./LinkStore";
 import {Relationship} from "./Relationship";
 
 export class Zitrusmix {
     private readonly options: ZitrusmixOptions;
-    private readonly elementMap: Map<ElementURI, ContentElement>;
-    private readonly linkStorage: LinkStorage;
+    private readonly elements: Map<ElementURI, ContentElement>;
+    private readonly links: LinkStore;
 
     constructor(options?: Partial<ZitrusmixOptions>) {
         this.options = Object.assign(new ZitrusmixOptions(), options || {});
-        this.elementMap = new Map();
-        this.linkStorage = new LinkStorage(this);
+        this.elements = new Map();
+        this.links = new LinkStore(this);
     }
 
     /**
@@ -49,7 +49,7 @@ export class Zitrusmix {
         targets: OneOrMany<ElementURI>,
         relationship?: Relationship): void {
         const link = new Link(source, ensureArray(targets), relationship);
-        this.linkStorage.add(link);
+        this.links.add(link);
     }
 
     /**
@@ -57,12 +57,12 @@ export class Zitrusmix {
      * @returns {ZitrusmixCollection}
      */
     all(): ZitrusmixCollection {
-        return new ZitrusmixCollection(this, [...this.elementMap.keys()]);
+        return new ZitrusmixCollection(this, [...this.elements.keys()]);
     }
 
     clear(): void {
-        this.elementMap.clear();
-        this.linkStorage.clear();
+        this.elements.clear();
+        this.links.clear();
     }
 
     /**
@@ -74,8 +74,8 @@ export class Zitrusmix {
     }
 
     delete(uri: ElementURI): void {
-        this.elementMap.delete(uri);
-        this.linkStorage.removeElement(uri);
+        this.elements.delete(uri);
+        this.links.removeElement(uri);
     }
 
     filter(predicate: ContentElementPredicate): ZitrusmixCollection {
@@ -87,7 +87,7 @@ export class Zitrusmix {
     }
 
     forEach(callback: (element: ContentElement) => void): void {
-        this.elementMap.forEach(callback);
+        this.elements.forEach(callback);
     }
 
     get(uri: ElementURI): ContentElement {
@@ -98,31 +98,31 @@ export class Zitrusmix {
     }
 
     getElementById(uri: ElementURI): ContentElement | undefined {
-        return this.elementMap.get(uri);
+        return this.elements.get(uri);
     }
 
     getIncomingLinks(uri: ElementURI): LinkCollection {
-        return this.linkStorage.getIncomingLinks(uri);
+        return this.links.getIncomingLinks(uri);
     }
 
     getOutgoingLinks(uri: ElementURI): LinkCollection {
-        return this.linkStorage.getOutgoingLinks(uri);
+        return this.links.getOutgoingLinks(uri);
     }
 
     getLinks(): LinkCollection {
-        return this.linkStorage.values()
+        return this.links.values()
     }
 
     has(uri: ElementURI): boolean {
-        return this.elementMap.has(uri);
+        return this.elements.has(uri);
     }
 
     keys(): IterableIterator<ElementURI>  {
-        return this.elementMap.keys();
+        return this.elements.keys();
     }
 
     map<T>(mapFunc: (element: ContentElement, uri: ElementURI) => T): Array<T> {
-        return Array.from(this.elementMap, ([key, value]) => mapFunc(value, key));
+        return Array.from(this.elements, ([key, value]) => mapFunc(value, key));
     }
 
     patch(uri: ElementURI, patch: Partial<Content>): ContentElement {
@@ -135,8 +135,8 @@ export class Zitrusmix {
     toJSON(): object {
         return {
             options: this.options,
-            elements: Array.from(this.elementMap.values(), element => element.toJSON()),
-            links: this.linkStorage.toJSON()
+            elements: Array.from(this.elements.values(), element => element.toJSON()),
+            links: this.links.toJSON()
         };
     }
 
@@ -169,14 +169,14 @@ export class Zitrusmix {
     }
 
     values(): IterableIterator<ContentElement> {
-        return this.elementMap.values();
+        return this.elements.values();
     }
 
     [Symbol.iterator](): Map<ElementURI, ContentElement> {
-        return this.elementMap;
+        return this.elements;
     }
 
     private setElement(contentElement: ContentElement): void {
-        this.elementMap.set(contentElement.uri, contentElement);
+        this.elements.set(contentElement.uri, contentElement);
     }
 }
