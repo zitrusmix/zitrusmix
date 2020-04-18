@@ -6,24 +6,24 @@ import {ElementURI} from './types/ElementURI';
 import {Content} from './types/Content';
 import {ZitrusmixPlugin} from './plugin/ZitrusmixPlugin';
 import {ZitrusmixCollection} from './ZitrusmixCollection';
-import {Link} from './Link';
 import {strictClone} from './utils/strictClone';
-import {OneOrMany} from "./types/OneOrMany";
-import {ensureArray} from "./utils/ensureArray";
-import {LinkCollection} from "./LinkCollection";
-import {assertElementExists} from "./guards/assert/assertElementExists";
-import {LinkStore} from "./LinkStore";
-import {Relationship} from "./Relationship";
+import {LinkCollection} from './LinkCollection';
+import {assertElementExists} from './guards/assert/assertElementExists';
+import {LinkStore} from './LinkStore';
 
 export class Zitrusmix {
     private readonly options: ZitrusmixOptions;
     private readonly elements: Map<ElementURI, ContentElement>;
-    private readonly links: LinkStore;
+    private readonly linkStore: LinkStore;
 
     constructor(options?: Partial<ZitrusmixOptions>) {
         this.options = Object.assign(new ZitrusmixOptions(), options || {});
         this.elements = new Map();
-        this.links = new LinkStore(this);
+        this.linkStore = new LinkStore(this);
+    }
+
+    get links(): LinkStore {
+        return this.linkStore;
     }
 
     /**
@@ -39,20 +39,6 @@ export class Zitrusmix {
     }
 
     /**
-     * Add a element link to the mix.
-     * @param {ElementURI} source
-     * @param {OneOrMany<ElementURI>} targets
-     * @param {Relationship} [relationship]
-     */
-    addLink(
-        source: ElementURI,
-        targets: OneOrMany<ElementURI>,
-        relationship?: Relationship): void {
-        const link = new Link(source, ensureArray(targets), relationship);
-        this.links.add(link);
-    }
-
-    /**
      * Returns all elements.
      * @returns {ZitrusmixCollection}
      */
@@ -62,7 +48,7 @@ export class Zitrusmix {
 
     clear(): void {
         this.elements.clear();
-        this.links.clear();
+        this.linkStore.clear();
     }
 
     /**
@@ -75,7 +61,7 @@ export class Zitrusmix {
 
     delete(uri: ElementURI): void {
         this.elements.delete(uri);
-        this.links.removeElement(uri);
+        this.linkStore.removeElement(uri);
     }
 
     filter(predicate: ContentElementPredicate): ZitrusmixCollection {
@@ -102,15 +88,15 @@ export class Zitrusmix {
     }
 
     getIncomingLinks(uri: ElementURI): LinkCollection {
-        return this.links.getIncomingLinks(uri);
+        return this.linkStore.getIncomingLinks(uri);
     }
 
     getOutgoingLinks(uri: ElementURI): LinkCollection {
-        return this.links.getOutgoingLinks(uri);
+        return this.linkStore.getOutgoingLinks(uri);
     }
 
     getLinks(): LinkCollection {
-        return this.links.values()
+        return this.linkStore.values()
     }
 
     has(uri: ElementURI): boolean {
@@ -136,7 +122,7 @@ export class Zitrusmix {
         return {
             options: this.options,
             elements: Array.from(this.elements.values(), element => element.toJSON()),
-            links: this.links.toJSON()
+            links: this.linkStore.toJSON()
         };
     }
 

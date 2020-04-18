@@ -11,6 +11,7 @@ import {Zitrusmix} from './Zitrusmix';
 import {ensureArray} from './utils/ensureArray';
 import {LinkCollection} from "./LinkCollection";
 import {Relationship} from "./Relationship";
+import {Link} from "./Link";
 
 export class ContentElement {
     #uri: ElementURI;
@@ -55,14 +56,18 @@ export class ContentElement {
 
     linkTo(targets: OneOrMany<ElementURI>, relationship?: Relationship): ContentElement {
         const targetURIs = ensureArray(targets);
-        this.#mix.addLink(this.uri, targetURIs, relationship);
+
+        const link = new Link(this.uri, targetURIs, relationship);
+        this.#mix.links.add(link);
 
         return this;
     }
 
     linkToElements(targets: OneOrMany<ContentElement>, relationship?: Relationship): ContentElement {
         const targetElements = ensureArray(targets);
-        this.#mix.addLink(this.uri, targetElements.map(element => element.uri), relationship);
+
+        const link = new Link(this.uri, targetElements.map(element => element.uri), relationship);
+        this.#mix.links.add(link);
 
         return this;
     }
