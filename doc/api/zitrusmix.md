@@ -28,4 +28,11 @@ add(uri: ElementURI, content?: Content): ContentElement
 Add `content` to the `Zitrusmix`. The `content` can be any serializable object.
 Returns the `ContentElement`.
 
+```typescript
+const mix = new Zitrusmix();
+mix.add('/city/vienna', {country: 'Austria'});
+
+```
+
+
 ## Examples
