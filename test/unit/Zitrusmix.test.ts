@@ -35,6 +35,25 @@ describe('Zitrusmix', function () {
         });
     });
 
+    describe('all()', function() {
+        it('returns a ZitrusmixCollection with all elments', function() {
+            // Given
+            const mix = new Zitrusmix();
+            mix.add('/city/vienna');
+            mix.add('/city/bolzano');
+
+            // When
+            const allElements = mix.all();
+
+            // Then
+            const expectedEntries = [
+                ['/city/vienna', {}],
+                ['/city/bolzano', {}],
+            ];
+            expect(Array.from(allElements.entries())).to.deep.equal(expectedEntries);
+        });
+    });
+
     describe('use()', function() {
         it('uses plugin with update callback on element', function() {
             // Given

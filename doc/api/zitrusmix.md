@@ -31,8 +31,21 @@ Returns the `ContentElement`.
 ```typescript
 const mix = new Zitrusmix();
 mix.add('/city/vienna', {country: 'Austria'});
-
 ```
 
+### all
+```typescript
+all(): ZitrusmixCollection
+```
+
+Returns a `ZitrusmixCollection` with all `ContentElements`.
+
+```typescript
+const mix = new Zitrusmix();
+mix.add('/city/vienna', {country: 'Austria'});
+mix.add('/city/bolzano', {country: 'Italia'});
+
+const allCities = mix.all();
+```
 
 ## Examples
