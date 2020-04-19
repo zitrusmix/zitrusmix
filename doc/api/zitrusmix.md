@@ -48,4 +48,18 @@ mix.add('/city/bolzano', {country: 'Italia'});
 const allCities = mix.all();
 ```
 
+### clear
+```typescript
+clear(): void
+```
+Removes all `ContentElements` and `Links` from the `Zitrusmix` instance.
+
+```typescript
+const mix = new Zitrusmix();
+mix.add('/city/vienna', {country: 'Austria'});
+mix.clear();
+
+mix.has('/city/vienna'); // false
+```
+
 ## Examples
