@@ -54,6 +54,35 @@ describe('Zitrusmix', function () {
         });
     });
 
+    describe('clear()', function() {
+        it('removes all elements', function() {
+            // Given
+            const mix = new Zitrusmix();
+            mix.add('/city/vienna');
+            mix.add('/city/bolzano');
+
+            // When
+            mix.clear();
+
+            // Then
+            expect(Array.from(mix.values())).to.deep.equal([]);
+        });
+
+        it('removes all links', function() {
+            // Given
+            const mix = new Zitrusmix();
+            const vienna = mix.add('/city/vienna');
+            const bolzano = mix.add('/city/bolzano');
+            vienna.linkToElements(bolzano);
+
+            // When
+            mix.clear();
+
+            // Then
+            expect(Array.from(mix.links.values())).to.deep.equal([]);
+        });
+    });
+
     describe('use()', function() {
         it('uses plugin with update callback on element', function() {
             // Given
