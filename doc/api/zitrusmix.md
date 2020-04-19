@@ -12,7 +12,7 @@ new Zitrusmix();
 
 ### add
 ```TypeScript
-add(uri: ElementURI, content?: Content): ContentElement
+Zitrusmix.prototype.add(uri: ElementURI, content?: Content): ContentElement
 ```
 
 Add `content` to the `Zitrusmix`. The `content` can be any serializable object.
