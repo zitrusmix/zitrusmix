@@ -8,6 +8,16 @@
 new Zitrusmix();
 ```
 
+## Properties
+
+### links
+Returns the `LinkStore` that contains all links between `ContentElements`.
+
+```typescript
+const mix = new Zitrusmix();
+const links = mix.links;
+```
+
 ## Methods
 
 ### add
