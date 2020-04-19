@@ -4,14 +4,14 @@
 
 ## Constructor
 
-```TypeScript
+```typescript
 new Zitrusmix();
 ```
 
 ## Methods
 
 ### add
-```TypeScriptDefinition
+```typescript
 add(uri: ElementURI, content?: Content): ContentElement
 ```
 
