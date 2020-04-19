@@ -2,6 +2,16 @@
 
 # Zitrusmix
 
+## Constructor
 
+> `new Zitrusmix();`
 
-## Rel
+## Methods
+
+### add
+> `add(uri: ElementURI, content?: Content): ContentElement`
+
+Add `content` to the `Zitrusmix`. The `content` can be any serializable object.
+Returns the `ContentElement`.
+
+## Examples
